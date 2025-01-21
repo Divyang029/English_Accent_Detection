@@ -6,10 +6,15 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import  io.jsonwebtoken.*;    // import jsontocken classes
-import java.util.Date;
+
+import java.util.*;
 import  java.security.Key;
+import java.util.stream.Collectors;
+
 import io.jsonwebtoken.security.Keys;
 
 @Component
@@ -31,9 +36,17 @@ public class JwtTokenProvider{
     // header.payload.signature = JWT
 
     // Generate JWT token
-    public String generateToken(String email) {
+    public String generateToken(UserDetails userDetails) {
+        Map<String,Object> claims = new HashMap<>();
+
+        claims.put("roles",userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList()));
+
+        //Generate token
         return Jwts.builder()
-                .setSubject(email)
+                .setClaims(claims)
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(signingKey, SignatureAlgorithm.HS512) // Signs the token with the generated key and specifies the signing algorithm (HS512)
@@ -71,4 +84,26 @@ public class JwtTokenProvider{
                 .getBody();
         return claims.getSubject();
     }
+
+    // Extract Role from JWT token
+    public List<String> getRolesFromToken(String token){
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(signingKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        Object rolesObj = claims.get("roles");
+
+        if (rolesObj instanceof List<?>) {
+            // Safely cast to a List of Strings
+            return ((List<?>) rolesObj).stream()
+                    .filter(role -> role instanceof String)
+                    .map(Object::toString)
+                    .collect(Collectors.toList());
+        }
+
+        return Collections.emptyList(); // Return empty list if roles are not present or invalid
+    }
+
 }
