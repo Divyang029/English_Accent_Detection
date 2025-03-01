@@ -1,6 +1,5 @@
 package com.example.AccentDetection.service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.example.AccentDetection.dao.RoleRepository;
 import com.example.AccentDetection.entity.Role;
 import com.example.AccentDetection.entity.User;
@@ -109,19 +108,6 @@ public class AuthServiceImpl implements AuthService{
         helper.setText(content, true);
 
         mailSender.send(message);
-    }
-
-    @Override
-    public User verifyUser(String verificationcode) {
-        User user = userService.getUserByVerificationCode(verificationcode);
-
-        if(user != null){
-            user.setEnabled(true);
-        }
-
-        userService.saveUser(user);
-
-        return user;
     }
 
     @Override

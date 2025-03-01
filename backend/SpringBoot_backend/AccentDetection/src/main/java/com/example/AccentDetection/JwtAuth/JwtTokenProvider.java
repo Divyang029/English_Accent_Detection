@@ -10,7 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import  io.jsonwebtoken.*;    // import jsontocken classes
-
+import com.example.AccentDetection.entity.User;
 import java.util.*;
 import  java.security.Key;
 import java.util.stream.Collectors;
@@ -105,5 +105,4 @@ public class JwtTokenProvider{
 
         return Collections.emptyList(); // Return empty list if roles are not present or invalid
     }
-
 }

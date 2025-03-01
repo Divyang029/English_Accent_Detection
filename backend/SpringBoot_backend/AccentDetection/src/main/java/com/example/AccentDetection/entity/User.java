@@ -32,6 +32,8 @@ public class User implements UserDetails {
     @Column(name = "verification_code", length = 64)
     private String verificationCode;
 
+    @Column(nullable = true)
+    private String PhotoPath;
     private boolean enabled = false;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
@@ -131,4 +133,11 @@ public class User implements UserDetails {
         this.verificationCode = verificationCode;
     }
 
+    public String getPhotoPath() {
+        return PhotoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        PhotoPath = photoPath;
+    }
 }

@@ -6,6 +6,7 @@ import jakarta.servlet.DispatcherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,9 +32,9 @@ public class SecurityConfig {
                http.
                         authorizeHttpRequests(auth -> {
                             auth
-                            .requestMatchers("/auth/**").permitAll()
+                            .requestMatchers("/api/auth/**").permitAll()
                                     .requestMatchers("/error").permitAll()
-                                    .requestMatchers("/admin/**").hasRole("ADMIN") // Restrict access to admin endpoints
+                                    .requestMatchers("/api/admin/**").hasRole("ADMIN") // Restrict access to admin endpoints
                             .anyRequest().authenticated();// Require authentication for other endpoints
                     })
                 .sessionManagement(session -> session

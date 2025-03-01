@@ -2,7 +2,7 @@ package com.example.AccentDetection.controller;
 
 import com.example.AccentDetection.JwtAuth.JwtTokenProvider;
 import com.example.AccentDetection.dao.RoleRepository;
-import com.example.AccentDetection.entity.Role;
+import com.example.AccentDetection.dto.ResetPasswordRequest;
 import com.example.AccentDetection.entity.User;
 import com.example.AccentDetection.service.AuthService;
 import com.example.AccentDetection.service.UserService;
@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -21,7 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
     Authentication auth;
 
@@ -73,27 +75,29 @@ public class AuthController {
         Map<String, Object> response = new HashMap<>();
 
         try {
-            // Perform authentication
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            User authenticatedUser = userService.getUserByEmail(authentication.getName())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            // Get the authenticated user
-            org.springframework.security.core.userdetails.User authenticatedUser = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-
-            // Generate JWT token
             String token = jwtTokenProvider.generateToken(authenticatedUser);
-
             response.put("status", "success");
             response.put("message", "Login successful!");
             response.put("token", token);
             return ResponseEntity.ok(response);
-        } catch (Exception e) {
+        }
+        catch (BadCredentialsException e) { // Handle Invalid Credentials
             response.put("status", "error");
-            response.put("message", "Invalid email or password!");
-            return ResponseEntity.status(401).body(response);
+            response.put("message", "Invalid User!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+        catch (Exception e) { // Handle Unexpected Errors
+            response.put("status", "error");
+            response.put("message", "An unexpected error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
@@ -128,6 +132,48 @@ public class AuthController {
         }
 
         return ResponseEntity.ok(response);
+    }
+
+    // Reset password
+    @PostMapping("/reset-password")
+    public ResponseEntity<Map<String, Object>> resetPassword(@RequestBody ResetPasswordRequest request) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            boolean isReset = userService.resetPassword(request.getEmail(), request.getNewPassword());
+            response.put("status","success");
+            response.put("message","Password reset successfully.");
+            return ResponseEntity.ok(response);
+        } catch (UsernameNotFoundException ex) {
+            response.put("status","Failed");
+            response.put("message","User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        } catch (Exception ex) {
+            response.put("status","Failed");
+            response.put("message","Internal Server Error. Please try later !!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    // Verify User (Set Enabled)
+    @GetMapping("/verify-user/{verificationCode}")
+    public ResponseEntity<Map<String,Object>> verifyUser(@PathVariable("verificationCode") String verificationCode){
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            boolean isVerified = userService.verifyUser(verificationCode);
+            response.put("status","success");
+            response.put("message","User verified successfully.");
+            return ResponseEntity.ok(response);
+        } catch (UsernameNotFoundException ex) {
+            response.put("status","Failed");
+            response.put("message","User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        } catch (Exception ex) {
+            response.put("status","Failed");
+            response.put("message","Internal Server Error. Please try later !!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
 }

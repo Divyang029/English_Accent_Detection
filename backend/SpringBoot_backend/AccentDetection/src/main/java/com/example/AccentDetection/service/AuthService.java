@@ -10,7 +10,5 @@ public interface AuthService {
 
     void sendVerificationEmail(User user) throws MessagingException, UnsupportedEncodingException;;
 
-    User verifyUser(String verificationcode);
-
     String sendOTP(String email) throws MessagingException, UnsupportedEncodingException;
 }

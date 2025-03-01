@@ -1,68 +1,32 @@
 package com.example.AccentDetection.service;
 
 import com.example.AccentDetection.entity.User;
-import com.example.AccentDetection.dao.UserRepository;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+public interface UserService{
 
-@Service
-public class UserService implements UserDetailsService {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException ;
 
-    private final UserRepository userRepository;
+    public List<User> getallUser();
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    public User saveUser(User user);
 
-    @Transactional
-    public List<User> getallUser() {
-        return userRepository.findAll();
-    }
+    public boolean deleteUser(Long id);
 
-    @Transactional
-    public User saveUser(User user) {
-        return userRepository.save(user);
-    }
+    public User getUserById(Long id);
 
-    @Transactional
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
+    public Optional<User> getUserByEmail(String email);
 
-    @Transactional
-    public User getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with ID: " + id));
-    }
+    User getUserByVerificationCode(String verificationcode);
 
-    @Transactional
-    public Optional<User> getUserByEmail(String email){
-        return userRepository.findByEmail(email);
-    }
+    boolean verifyUser(String verificationcode);
 
-    @Transactional
-    User getUserByVerificationCode(String verificationcode){
-        return userRepository.findByVerificationCode(verificationcode);
-    }
+    boolean resetPassword(String email,String newPassword);
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try {
-            User appUser = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("user not found with username  " + username));
-
-            return org.springframework.security.core.userdetails.User.builder().username(appUser.getUsername()).password(appUser.getPassword()).authorities(appUser.getRoles()
-                            .stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList()))
-                    .build();
-        } catch (Exception e) {
-            return null;
-        }
-    }
+    User updateUser(Long id,User updatedUser);
 }
