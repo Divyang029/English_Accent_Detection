@@ -1,0 +1,120 @@
+/* Dark Theme Styling */
+.wrapper {
+     background-color: #121212;
+     color: #e0e0e0;
+     font-family: "Inter", sans-serif;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 100vh;
+     margin: 0;
+   }
+   
+   .container {
+     width: 350px;
+     padding: 25px;
+     text-align: center;
+     background: #1e1e1e;
+     border-radius: 12px;
+     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+     transition: all 0.3s ease-in-out;
+     
+   }
+   
+   h2 {
+     margin-bottom: 20px;
+     font-size: 24px;
+     font-weight: 600;
+   }
+   
+   input {
+     width: calc(100% - 1px); /* Adjust width while keeping spacing balanced */
+     padding: 10px;
+     margin: 10px auto; /* Centering the input fields */
+     border: 1px solid #333;
+     border-radius: 6px;
+     background: #252525;
+     color: #e0e0e0;
+     outline: none;
+     font-size: 16px;
+     transition: all 0.2s ease-in-out;
+     display: block;
+     box-sizing: border-box; /* Ensures padding doesn't affect width */
+   }
+   
+   
+   input:focus {
+     border-color: #007aff;
+     box-shadow: 0 0 8px rgba(0, 122, 255, 0.5);
+   }
+   
+   button {
+     width: 100%;
+     padding: 12px;
+     background: #007aff;
+     color: white;
+     border: none;
+     border-radius: 6px;
+     cursor: pointer;
+     font-size: 16px;
+     font-weight: 500;
+     transition: all 0.2s ease-in-out;
+   }
+   
+   button:hover {
+     background: #005ecb;
+     transform: translateY(-2px);
+   }
+   
+   button:active {
+     background: #004ba0;
+     transform: translateY(1px);
+   }
+   
+   p {
+     margin-top: 12px;
+     font-size: 14px;
+   }
+   
+   a {
+     color: #007aff;
+     text-decoration: none;
+     font-weight: 500;
+     transition: color 0.2s;
+   }
+   
+   a:hover {
+     color: #66b3ff;
+   }
+   
+   @media (max-width: 400px) {
+     .container {
+       width: 90%;
+     }
+   }
+   
+   .error {
+     color: red;
+     font-size: 12px;
+     margin-top: 5px;
+   }
+   
+   /* Style for Password Input with Visibility Toggle */
+   .password-container {
+     display: flex;
+     align-items: center;
+     position: relative;
+   }
+   
+   .password-container input {
+     flex: 1;
+     padding-right: 35px; /* Space for the eye icon */
+   }
+   
+   .eye-icon {
+     position: absolute;
+     right: 10px;
+     cursor: pointer;
+     font-size: 18px;
+   }
+   

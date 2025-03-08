@@ -5,6 +5,7 @@ import com.example.AccentDetection.dao.RoleRepository;
 import com.example.AccentDetection.dto.ResetPasswordRequest;
 import com.example.AccentDetection.entity.User;
 import com.example.AccentDetection.service.AuthService;
+import com.example.AccentDetection.service.AuthServiceImpl;
 import com.example.AccentDetection.service.UserService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,9 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private AuthServiceImpl authServiceImpl;
+
     @GetMapping("/")
     public String getHello() {
         return "Hello world dd2";
@@ -54,20 +58,26 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> signUp(@RequestBody User user) {
         Map<String, Object> response = new HashMap<>();
 
-        if (userService.loadUserByUsername(user.getEmail()) != null) {
+        try {
+            if (userService.loadUserByUsername(user.getEmail()) != null) {
+                response.put("status", "error");
+                response.put("message", "User already exists.");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            // Hash the password and store the user
+            String hashedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(hashedPassword);
+
+            authService.createUser(user);
+            response.put("status", "success");
+            response.put("message", "User registered successfully!");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
             response.put("status", "error");
-            response.put("message", "User with this email already exists!");
-            return ResponseEntity.badRequest().body(response);
+            response.put("message", "An unexpected error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
-
-        // Hash the password and store the user
-        String hashedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(hashedPassword);
-
-        authService.createUser(user);
-        response.put("status", "success");
-        response.put("message", "User registered successfully!");
-        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
@@ -87,6 +97,7 @@ public class AuthController {
             response.put("status", "success");
             response.put("message", "Login successful!");
             response.put("token", token);
+            response.put("enabled",authenticatedUser.isEnabled());
             return ResponseEntity.ok(response);
         }
         catch (BadCredentialsException e) { // Handle Invalid Credentials
@@ -114,11 +125,13 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
 
+            User user = userService.getUserByEmail(email).orElse(null);
+
             String sendotp = authService.sendOTP(email);
 
             if ("User not found".equals(sendotp)) {
                 response.put("status", "error");
-                response.put("message", "Invalid email address.");
+                response.put("message", "User Not Found !!");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             } else {
                 response.put("status", "success");
@@ -176,4 +189,22 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/send_verificationMail")
+    public  ResponseEntity<Map<String,Object>> sendMail(@RequestBody Map<String, Object> requestBody){
+        Map<String, Object> response = new HashMap<>();
+        String email = (String) requestBody.get("email"); // Extract email from JSON
+
+        User user = userService.getUserByEmail(email).orElse(null);
+        System.out.println(user.getRoles());
+        try {
+            authServiceImpl.sendVerificationEmail(user);
+        } catch (Exception e) {
+           response.put("status","Failed");
+           response.put("message","Failed to send mail. Try again later !!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+
+        response.put("status","success");
+        return ResponseEntity.ok(response);
+    }
 }

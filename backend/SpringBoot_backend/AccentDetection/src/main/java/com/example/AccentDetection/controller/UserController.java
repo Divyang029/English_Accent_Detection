@@ -6,6 +6,8 @@ import com.example.AccentDetection.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,10 +42,33 @@ public class UserController {
         return user != null ? new ResponseEntity<>(user, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // Delete a user by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        boolean deleted = userService.deleteUser(id);
-        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    // Delete user
+    @DeleteMapping
+    public ResponseEntity<Map<String,Object>> deleteUser(){
+        Map<String, Object> response = new HashMap<>();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        try {
+            User user = userService.getUserByEmail(email).orElse(null);
+
+            if(user == null){
+                response.put("status","Failed");
+                response.put("message","User not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+
+            System.out.println(user.getId());
+            userService.deleteUser(user.getId());
+
+            response.put("status","success");
+            response.put("message","Account deleted successfully !!");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("status","Failed");
+            response.put("message","Failed to delete account. Try again later !!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 }

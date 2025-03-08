@@ -1,0 +1,44 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #1A1A1A; /* Dark background for the entire app */
+  color: #E0E0E0; /* Light text color */
+}
+
+/* Dashboard Layout */
+.dashboard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+}
+
+/* Header Styles */
+header {
+  background-color: #121212; /* Dark header background */
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+  border-bottom: 1px solid rgba(81, 81, 81, 0.3); /* Subtle border */
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensure header is above other content */
+}
+
+/* Footer Styles */
+footer {
+  background-color: #121212; /* Dark footer background */
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+  border-top: 1px solid rgba(81, 81, 81, 0.3); /* Subtle border */
+} 
