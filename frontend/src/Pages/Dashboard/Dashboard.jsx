@@ -1,9 +1,11 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import Header from '../../components/Header.jsx';
+import Header from '../../Components/Header.jsx';
 import Footer from '../../components/Footer.jsx';
-import Home from './Home';
+import Home from '../Home/Home.jsx';
+import HistoryPage from '../History/History.jsx';
 import "../../Styles/Dashboard.css";
+import { Routes, Route } from "react-router-dom";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -15,7 +17,11 @@ const Dashboard = () => {
 return (
   <div className="dashboard">
     <Header handleLogout={handleLogout} />
-    <Home />
+      <Routes>
+        <Route index element={<Home />} />
+          <Route path="home" element={<Home />} />
+          <Route path="history" element={<HistoryPage />} />
+        </Routes>
     <Footer/>
   </div>
 );

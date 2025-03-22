@@ -26,8 +26,10 @@ import {
   Mic as MicIcon,
 } from "@mui/icons-material";
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ handleLogout }) => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,8 +39,8 @@ const Header = ({ handleLogout }) => {
   };
 
   const menuItems = [
-    { text: "Home", icon: <HomeIcon />, action: () => { } },
-    { text: "History" ,icon: <ManageSearchIcon/>, action: () => {}},
+    { text: "Home", icon: <HomeIcon />, action: () => {navigate('/dashboard/home') } },
+    { text: "History" ,icon: <ManageSearchIcon/>, action: () => { navigate('/dashboard/history')}},
     { text: "About", icon: <InfoIcon />, action: () => { } },
     { text: "Profile", icon: <PersonIcon />, action: () => { } },
     { text: "Logout", icon: <LogoutIcon />, action: handleLogout },
