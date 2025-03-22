@@ -1,37 +1,33 @@
 package com.example.AccentDetection.entity;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-
 import java.util.Set;
 
 @Entity
 @Table(name = "Accent")
 public class Accent {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generate primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy="accents")
+    @Column(length = 1000)
+    private String commonWords;
+
+    @Column(length = 2000)
+    private String influence;
+
+    @ManyToMany(mappedBy = "accents")
     private Set<Country> countries;
 
-    public Accent(){}
+    public Accent() {}
 
-    public Set<Country> getCountries() {
-        return countries;
-    }
-
-    public void setCountries(Set<Country> countries) {
-        this.countries = countries;
-    }
-
-    public Accent(Long id, String name) {
+    public Accent(Long id, String name, String commonWords, String influence) {
         this.id = id;
         this.name = name;
+        this.commonWords = commonWords;
+        this.influence = influence;
     }
 
     public Long getId() {
@@ -48,5 +44,29 @@ public class Accent {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCommonWords() {
+        return commonWords;
+    }
+
+    public void setCommonWords(String commonWords) {
+        this.commonWords = commonWords;
+    }
+
+    public String getInfluence() {
+        return influence;
+    }
+
+    public void setInfluence(String influence) {
+        this.influence = influence;
+    }
+
+    public Set<Country> getCountries() {
+        return countries;
+    }
+
+    public void setCountries(Set<Country> countries) {
+        this.countries = countries;
     }
 }

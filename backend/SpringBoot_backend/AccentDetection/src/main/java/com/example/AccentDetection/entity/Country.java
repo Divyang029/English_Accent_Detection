@@ -15,12 +15,6 @@ public class Country {
     @Column(nullable = false)
     private String name;
 
-    @Column(columnDefinition = "TEXT")
-    private String history;
-
-    @Column(nullable = false)
-    private String culture;
-
     @Column(nullable = true)
     private String flagPath;
 
@@ -32,20 +26,17 @@ public class Country {
     )
     private Set<Accent> accents;
 
-    // Getters and Setters
-
     public Country() {
     }
 
-    public Country(Long id, String name, String history, String flagPath, String culture, Set<Accent> accents) {
+    public Country(Long id, String name, String flagPath, Set<Accent> accents) {
         this.id = id;
         this.name = name;
-        this.history = history;
         this.flagPath = flagPath;
-        this.culture = culture;
         this.accents = accents;
     }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -60,22 +51,6 @@ public class Country {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getHistory() {
-        return history;
-    }
-
-    public void setHistory(String history) {
-        this.history = history;
-    }
-
-    public String getCulture() {
-        return culture;
-    }
-
-    public void setCulture(String culture) {
-        this.culture = culture;
     }
 
     public String getFlagPath() {

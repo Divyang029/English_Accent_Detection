@@ -1,8 +1,11 @@
 package com.example.AccentDetection.controller;
 
+import com.example.AccentDetection.dto.AccentDTO;
 import com.example.AccentDetection.dto.CountryDTO;
 import com.example.AccentDetection.entity.Accent;
+import com.example.AccentDetection.entity.Country;
 import com.example.AccentDetection.service.AccentService;
+import com.example.AccentDetection.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/accent")
@@ -17,34 +21,28 @@ public class AccentController {
     @Autowired
     private AccentService accentService;
 
-    // Create a new Accent
-    @PostMapping
-    public ResponseEntity<Accent> createAccent(@RequestBody Accent accent) {
-        Accent createdAccent = accentService.createAccent(accent);
-        return ResponseEntity.ok().body(createdAccent);
+
+    // Convert Accent Entity to AccentDTO
+    private AccentDTO mapToDTO(Accent accent) {
+        Set<String> countryNames = accent.getCountries()
+                .stream()
+                .map(country -> country.getName())  // Extract country names
+                .collect(Collectors.toSet());
+
+        return new AccentDTO(accent.getId(), accent.getName(), accent.getCommonWords(), accent.getInfluence(), countryNames);
     }
 
-    // Get all Accents
+    // Get all Accents and return as DTOs
     @GetMapping
-    public ResponseEntity<List<Accent>> getAllAccents() {
+    public List<AccentDTO> getAllAccents() {
         List<Accent> accents = accentService.getAllAccents();
-        return ResponseEntity.ok().body(accents);
+        return accents.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
-    // Get Accent by ID
+    // Get Accent by ID and return as DTO
     @GetMapping("/{id}")
-    public ResponseEntity<Accent> getAccentById(@PathVariable Long id) {
-        Optional<Accent> accent = accentService.getAccentById(id);
-        return accent.map(value -> ResponseEntity.ok().body(value))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    // Update an Accent
-    @PutMapping("/{id}")
-    public ResponseEntity<Accent> updateAccent(@PathVariable Long id, @RequestBody Accent accent) {
-        Optional<Accent> updatedAccent = accentService.updateAccent(id, accent);
-        return updatedAccent.map(value -> ResponseEntity.ok().body(value))
-                .orElse(ResponseEntity.notFound().build());
+    public Optional<AccentDTO> getAccentById(Long id) {
+        return accentService.getAccentById(id).map(this::mapToDTO);
     }
 
     // Delete an Accent
@@ -56,9 +54,13 @@ public class AccentController {
 
     // Get Countries by Accent Name
     @GetMapping("/{name}/countries")
-    public ResponseEntity<Set<CountryDTO>> getCountriesByAccentName(@PathVariable String name) {
+    public ResponseEntity<Set<String>> getCountriesByAccentName(@PathVariable String name) {
         Optional<Set<CountryDTO>> countries = accentService.getCountriesByAccentName(name);
-        return countries.map(value -> ResponseEntity.ok().body(value))
-                .orElse(ResponseEntity.notFound().build());
+        return countries.map(countrySet -> {
+            Set<String> countryNames = countrySet.stream()
+                    .map(CountryDTO::getName)
+                    .collect(Collectors.toSet());
+            return ResponseEntity.ok().body(countryNames);
+        }).orElse(ResponseEntity.notFound().build());
     }
 }
