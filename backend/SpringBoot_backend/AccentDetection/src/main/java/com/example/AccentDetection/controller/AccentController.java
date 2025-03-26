@@ -44,7 +44,7 @@ public class AccentController {
     public Optional<AccentDTO> getAccentById(Long id) {
         return accentService.getAccentById(id).map(this::mapToDTO);
     }
-
+    
     // Delete an Accent
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAccent(@PathVariable Long id) {
