@@ -6,6 +6,7 @@ import Home from '../Home/Home.jsx';
 import HistoryPage from '../History/History.jsx';
 import "../../Styles/Dashboard.css";
 import { Routes, Route } from "react-router-dom";
+import About from '../About/About.jsx';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ return (
         <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="history" element={<HistoryPage />} />
+          <Route path="about" element={<About />} />
         </Routes>
     <Footer/>
   </div>

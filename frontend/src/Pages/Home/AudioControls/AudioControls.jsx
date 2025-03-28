@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button } from "@mui/material";
 import { Download, PlayArrow, Stop } from "@mui/icons-material";
 
 const AudioControls = ({ audioBlob, uploadedFile, audioUrl }) => {
+    
+    useEffect(() => {   
+        setAudio(null);
+        setIsPlaying(false);
+        setCurrentTime(0);
+    }, [audioUrl]);
+
     const [audio, setAudio] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [currentTime, setCurrentTime] = useState(0); // Track playback position
+    const [currentTime, setCurrentTime] = useState(0); 
 
     const downloadAudio = () => {
         const blob = audioBlob || uploadedFile;
@@ -27,19 +34,19 @@ const AudioControls = ({ audioBlob, uploadedFile, audioUrl }) => {
             setAudio(newAudio);
         }
 
-        newAudio.currentTime = currentTime; // Resume from last position
+        newAudio.currentTime = currentTime; 
         newAudio.play();
         setIsPlaying(true);
 
         newAudio.onended = () => {
             setIsPlaying(false);
-            setCurrentTime(0); // Reset time when finished
+            setCurrentTime(0); 
         };
     };
 
     const pauseAudio = () => {
         if (audio) {
-            setCurrentTime(audio.currentTime); // Save the current position
+            setCurrentTime(audio.currentTime); 
             audio.pause();
             setIsPlaying(false);
         }
@@ -59,7 +66,7 @@ const AudioControls = ({ audioBlob, uploadedFile, audioUrl }) => {
                 <Button
                     variant="outlined"
                     startIcon={<Stop />}
-                    onClick={pauseAudio} // Now it pauses instead of stopping
+                    onClick={pauseAudio} 
                     sx={{
                         borderRadius: 4,
                         borderColor: "#E0E0E0",
@@ -76,7 +83,7 @@ const AudioControls = ({ audioBlob, uploadedFile, audioUrl }) => {
                 <Button
                     variant="outlined"
                     startIcon={<PlayArrow />}
-                    onClick={playAudio} // Resumes from last position
+                    onClick={playAudio} 
                     sx={{
                         borderRadius: 4,
                         borderColor: "#E0E0E0",

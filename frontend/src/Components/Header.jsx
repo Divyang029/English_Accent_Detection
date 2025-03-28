@@ -41,7 +41,7 @@ const Header = ({ handleLogout }) => {
   const menuItems = [
     { text: "Home", icon: <HomeIcon />, action: () => {navigate('/dashboard/home') } },
     { text: "History" ,icon: <ManageSearchIcon/>, action: () => { navigate('/dashboard/history')}},
-    { text: "About", icon: <InfoIcon />, action: () => { } },
+    { text: "About", icon: <InfoIcon />, action: () => { navigate('/dashboard/about') } },
     { text: "Profile", icon: <PersonIcon />, action: () => { } },
     { text: "Logout", icon: <LogoutIcon />, action: handleLogout },
   ];

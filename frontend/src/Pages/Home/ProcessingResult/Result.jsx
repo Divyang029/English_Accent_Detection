@@ -9,6 +9,7 @@ import {
 import { useState, useEffect } from 'react';
 
 import "../../../Styles/Typewriter.css";
+import AccentAnalysis from "./AccentAnalysis";
 
 const Result = ({accentResult,setAccentResult}) => {
     const [isTyped, setIsTyped] = useState(false);
@@ -93,6 +94,8 @@ const Result = ({accentResult,setAccentResult}) => {
               </Button>
               </CardContent>
             </Card>
+
+            <AccentAnalysis/>
         </>
     );
 }

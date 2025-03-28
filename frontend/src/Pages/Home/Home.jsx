@@ -19,10 +19,9 @@ import UploadFile from "./UploadFile/UploadFile.jsx";
 import AudioControls from "./AudioControls/AudioControls.jsx";
 import Processing from "./ProcessingResult/Processing.jsx";
 import Result from "./ProcessingResult/Result.jsx";
-
+import AccentSelector from "./AccentSelector/AccentSelector.jsx";
  
 const Home = () => {
-
   const [recording, setRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -77,24 +76,54 @@ const Home = () => {
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      const audio = new Audio();
-      audio.src = url;
-
-      audio.onloadedmetadata = () => {
-        const duration = audio.duration; // Audio duration in seconds
-        console.log("Audio Duration:", duration);
+      // Create an Audio Context for precise duration measurement
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
   
-        if (duration > 10000) { // Example: Limit audio length to 60 seconds
-          alert("Please upload an audio file less than 60 seconds.");
-          return;
-        }
+      // Create a FileReader to read the file
+      const reader = new FileReader();
   
-        setUploadedFile(file);
-        setAudioBlob(null);
-        setAudioUrl(url);
-        setAccentResult(null);
+      reader.onload = (e) => {
+        const arrayBuffer = e.target.result;
+  
+        // Decode the audio file to get accurate duration
+        audioContext.decodeAudioData(
+          arrayBuffer,
+          (audioBuffer) => {
+            const duration = audioBuffer.duration;
+            console.log(duration);
+            // Validate file size and duration
+            const maxDuration = 10; // 60 seconds
+            const maxFileSize = 10 * 1024 * 1024; // 10 MB
+  
+            if (duration > maxDuration) {
+              alert(`Audio file should be less than ${maxDuration} seconds.`);
+              return;
+            }
+  
+            if (file.size > maxFileSize) {
+              alert(`File size should be less than ${maxFileSize / 1024 / 1024} MB.`);
+              return;
+            }
+  
+            // If validation passes, proceed with file upload
+            const url = URL.createObjectURL(file);
+            setUploadedFile(file);
+            setAudioBlob(null);
+            setAudioUrl(url);
+            setAccentResult(null);
+  
+            // Close the audio context when done
+            audioContext.close();
+          },
+          (error) => {
+            console.error("Error decoding audio file:", error);
+            alert("Unable to process the audio file. Please try a different file.");
+          }
+        );
       };
+  
+      // Read the file as an ArrayBuffer
+      reader.readAsArrayBuffer(file);
     } else {
       alert("Please upload a valid audio file.");
     }
@@ -121,9 +150,9 @@ const Home = () => {
     <Box sx={{ 
       display: "flex", 
       flexDirection: "column", 
-      flex: 1, // Take up remaining space
-      overflowY: "auto", // Allow scrolling if content overflows
-      bgcolor: "#1A1A1A", // Dark background
+      flex: 1, 
+      overflowY: "auto", 
+      bgcolor: "#1A1A1A", 
     }}>
    
       
@@ -144,6 +173,9 @@ const Home = () => {
 
           {/* Sample Reading Text */}
           <SampleText/>
+
+          {/* Accent Selector */ }
+          <AccentSelector/>
 
           {/* Recording and Upload Section */}
           <Card
@@ -180,8 +212,8 @@ const Home = () => {
 
               </Box>
 
-              {/* Audio Controls */}
-              {audioUrl && (<AudioControls audioBlob={audioBlob} uploadedFile={uploadedFile} audioUrl={audioUrl}/>)}
+                {/* Audio Controls */}
+                {audioUrl && (<AudioControls audioBlob={audioBlob} uploadedFile={uploadedFile} audioUrl={audioUrl}/>)}
 
               {/* Process Button */}
               {uploadedFile && !processing && !accentResult && (
@@ -214,7 +246,6 @@ const Home = () => {
  
           {accentResult && (<Result setAccentResult={setAccentResult} accentResult={accentResult}/>)}
         </Box>
-
         {accentResult && (<WorldMap accentName={accentResult}/>)}
       </Container>
     </Box>
