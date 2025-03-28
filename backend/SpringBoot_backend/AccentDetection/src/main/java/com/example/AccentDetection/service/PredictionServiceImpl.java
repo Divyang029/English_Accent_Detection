@@ -74,7 +74,7 @@ public class PredictionServiceImpl implements PredictionService {
     }
 
     @Override
-    public Prediction createPrediction(String accentName,int score,MultipartFile voiceData) throws IOException{
+    public Prediction createPrediction(String accentName,int score,MultipartFile voiceData) throws IOException {
         Accent accent = accentRepository.findByName(accentName).orElse(null);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -87,8 +87,10 @@ public class PredictionServiceImpl implements PredictionService {
         prediction.setUser(user);
         prediction.setConfidenceScore(score);
 
-        String voiceurl = uploadVoice(voiceData);
-        prediction.setVoicePath(voiceurl);
+        if (!voiceData.isEmpty()){
+            String voiceurl = uploadVoice(voiceData);
+            prediction.setVoicePath(voiceurl);
+        }
 
         return predictionRepository.save(prediction);
     }
@@ -115,7 +117,6 @@ public class PredictionServiceImpl implements PredictionService {
 
             // Delete the blob
             blobClient.delete();
-            System.out.println("Blob deleted successfully.");
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error deleting the blob: " + e.getMessage());

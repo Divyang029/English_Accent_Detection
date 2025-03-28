@@ -45,12 +45,6 @@ public class PredictionController {
 
             Set<Prediction> predictions = predictionService.getUserPredictions(user.getId());
 
-            if(predictions.isEmpty()){
-                response.put("status", HttpStatus.NOT_FOUND.value());
-                response.put("message", "No predictions found for this user.");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-            }
-
             // Convert Set<Prediction> to List<PredictionDTO>
             List<PredictionDTO> predictionDTOs = predictions.stream()
                     .map(prediction -> new PredictionDTO(
@@ -111,8 +105,9 @@ public class PredictionController {
         Map<String, Object> response = new HashMap<>();
         try {
             predictionService.deletePrediction(id);
+
             response.put("status", "success");
-            response.put("message", "Prediction deleted successfully.");
+            response.put("predictions", "Prediction deleted successfully");
             return ResponseEntity.ok(response);
         } catch (EntityNotFoundException e) {
             response.put("status", HttpStatus.NOT_FOUND.value());
