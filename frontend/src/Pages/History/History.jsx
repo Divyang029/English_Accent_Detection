@@ -401,153 +401,6 @@
 // export default HistoryPage;
 
 
-
-
-// import React, { useState, useRef, useEffect } from 'react';
-// import { 
-//   Box, 
-//   IconButton, 
-//   Slider, 
-//   Typography, 
-//   Paper 
-// } from '@mui/material';
-// import { 
-//   PlayArrow as PlayArrowIcon, 
-//   Pause as PauseIcon 
-// } from '@mui/icons-material';
-
-// const HistoryPage = () => {
-//   const [isPlaying, setIsPlaying] = useState(false);
-//   const [duration, setDuration] = useState(0);
-//   const [currentTime, setCurrentTime] = useState(0);
-//   const audioRef = useRef(null);
-//   const audioContextRef = useRef(null);
-//   const audioUrl = "https://accentai.blob.core.windows.net/voicefiles/1_78f37baa-2999-4c1c-8212-f8fd41cec370";
-//   // Format time in MM:SS
-//   const formatTime = (timeInSeconds) => {
-//     const minutes = Math.floor(timeInSeconds / 60);
-//     const seconds = Math.floor(timeInSeconds % 60);
-//     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-//   };
-
-//   // Fetch duration using Web Audio API
-//   const fetchAudioDuration = async (url) => {
-//     try {
-//       // Create audio context if not exists
-//       if (!audioContextRef.current) {
-//         audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
-//       }
-
-//       // Fetch the audio file
-//       const response = await fetch(url);
-//       const arrayBuffer = await response.arrayBuffer();
-      
-//       // Decode audio data
-//       const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
-      
-//       // Set duration
-//       setDuration(audioBuffer.duration);
-//       console.log(audioBuffer.duration);
-//     } catch (error) {
-//       console.error('Error fetching audio duration:', error);
-//     }
-//   };
-
-//   // Handle play/pause toggle
-//   const togglePlayback = () => {
-//     if (isPlaying) {
-//       audioRef.current.pause();
-//     } else {
-//       audioRef.current.play();
-//     }
-//     setIsPlaying(!isPlaying);
-//   };
-
-//   // Update current time as audio plays
-//   const handleTimeUpdate = () => {
-//     setCurrentTime(audioRef.current.currentTime);
-//   };
-
-//   // Reset play state when audio ends
-//   const handleEnded = () => {
-//     setIsPlaying(false);
-//     setCurrentTime(0);
-//   };
-
-//   // Handle slider change
-//   const handleSliderChange = (event, newValue) => {
-//     audioRef.current.currentTime = newValue;
-//     setCurrentTime(newValue);
-//   };
-
-//   // Fetch duration on component mount or when URL changes
-//   useEffect(() => {
-//     if (audioUrl) {
-//       fetchAudioDuration(audioUrl);
-//     }
-
-//     // Cleanup audio context
-//     return () => {
-//       if (audioContextRef.current) {
-//         audioContextRef.current.close();
-//       }
-//     };
-//   }, [audioUrl]);
-
-//   return (
-//     <Paper 
-//       elevation={3} 
-//       sx={{ 
-//         display: 'flex', 
-//         alignItems: 'center', 
-//         padding: 2, 
-//         maxWidth: 400, 
-//         margin: 'auto' 
-//       }}
-//     >
-//       <audio
-//         ref={audioRef}
-//         src={audioUrl}
-//         onTimeUpdate={handleTimeUpdate}
-//         onEnded={handleEnded}
-//       />
-      
-//       <IconButton 
-//         onClick={togglePlayback} 
-//         color="primary"
-//       >
-//         {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-//       </IconButton>
-      
-//       <Box sx={{ width: '100%', ml: 2, mr: 2 }}>
-//         <Slider
-//           value={currentTime}
-//           max={duration}
-//           onChange={handleSliderChange}
-//           step={1}
-//           valueLabelDisplay="auto"
-//           valueLabelFormat={(value) => formatTime(value)}
-//         />
-//         <Box sx={{ 
-//           display: 'flex', 
-//           justifyContent: 'space-between', 
-//           mt: 1 
-//         }}>
-//           <Typography variant="caption">
-//             {formatTime(currentTime)}
-//           </Typography>
-//           <Typography variant="caption">
-//             {formatTime(duration)}
-//           </Typography>
-//         </Box>
-//       </Box>
-//     </Paper>
-//   );
-// };
-
-// export default HistoryPage;
-
-
 import React, { useState, useRef, useEffect } from "react";
 import {
   Typography,
@@ -564,10 +417,12 @@ import {
   Pause, 
   Refresh,
   VolumeUp,
-  Download
+  Download,
+  LibraryMusic
 } from "@mui/icons-material";
 import WaveSurfer from "wavesurfer.js";
 import apiRequest from "../../Services/apiService";
+import { useNavigate } from "react-router-dom";
 
 const HistoryPage = () => {
   const [historyData, setHistoryData] = useState([]);
@@ -578,6 +433,7 @@ const HistoryPage = () => {
   const waveformRefs = useRef({});
   const containerRefs = useRef({});
   const audioContextRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Clean up wavesurfer instances when component unmounts
@@ -612,10 +468,11 @@ const HistoryPage = () => {
 
   // Fetch history data from API
   const fetchHistoryData = async () => {
-      setLoading(true);
+    setLoading(true);
 
+    try {
       const response = await apiRequest("GET", "/api/prediction/user/all", null, true);
-            
+      
       if (!response.success) {
         console.error(`Error (${response.status}):`, response.error || response.data.message);
         setLoading(false);
@@ -639,6 +496,11 @@ const HistoryPage = () => {
       
       setHistoryData(dataWithDurations);
       setLoading(false);
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      setHistoryData([]);
+      setLoading(false);
+    }
   };
 
   // Fetch history data on component mount
@@ -746,6 +608,7 @@ const HistoryPage = () => {
     return "#F44336"; // Red
   };
 
+  // Render loading state
   if (loading) {
     return (
       <Box 
@@ -760,15 +623,64 @@ const HistoryPage = () => {
         <CircularProgress 
           color="primary" 
           sx={{ 
-            color: "#4CAF50", // Matching the green accent color
-            width: 80,  // Larger size
-            height: 80  // Larger size
+            color: "#4CAF50", 
+            width: 80,  
+            height: 80  
           }} 
         />
       </Box>
     );
   }
 
+  // Render empty state
+  if (historyData.length === 0) {
+    return (
+      <Box sx={{ 
+        display: "flex", 
+        flexDirection: "column", 
+        minHeight: "100vh", 
+        bgcolor: "#1A1A1A", 
+        color: "#E0E0E0",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+        p: 3
+      }}>
+        <LibraryMusic 
+          sx={{ 
+            fontSize: 100, 
+            color: "#4CAF50", 
+            mb: 3 
+          }} 
+        />
+        <Typography variant="h4" sx={{ color: "#4CAF50", mb: 2 }}>
+          No Accent Recordings Yet
+        </Typography>
+        <Typography variant="body1" sx={{ color: "#999", maxWidth: 500, mb: 3 }}>
+          It looks like you haven't made any accent recordings yet. Start by recording your first accent to see your history here.
+        </Typography>
+        <Box sx={{ 
+          bgcolor: "#4CAF50", 
+          color: "#000", 
+          px: 3, 
+          py: 2, 
+          borderRadius: 2,
+          cursor: "pointer",
+          "&:hover": {
+            bgcolor: "#3d8b40"
+          }
+        }}
+        onClick={() => {
+          navigate('/dashboard/home');
+        }}
+        >
+          Start Recording
+        </Box>
+      </Box>
+    );
+  }
+
+  // Render history data
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh", bgcolor: "#1A1A1A", color: "#E0E0E0" }}>
       <Box sx={{ flex: 1, p: 3, maxWidth: "1200px", mx: "auto", width: "100%" }}>
