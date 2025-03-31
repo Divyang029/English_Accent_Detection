@@ -9,7 +9,6 @@ import {
   Mic, 
   Stop, 
 } from "@mui/icons-material";
-import { useEffect } from "react";
 
 
 const Microphone = ({startRecording,stopRecording,recording}) => {

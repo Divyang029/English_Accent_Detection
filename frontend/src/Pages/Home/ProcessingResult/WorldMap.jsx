@@ -78,137 +78,250 @@ const countryCoordinates = {
   Uzbekistan: [64.5853, 41.3775],
   Vietnam: [108.2772, 14.0583],
   Nigeria: [8.6753, 9.082],
+  Ghana: [-1.0232, 7.9465],
+  Philippines: [121.7740, 12.8797],
+  Qatar: [51.1839, 25.3548],
+  "Burkina Faso": [-1.5616, 12.2383],
+  "Ivory Coast": [-5.5471, 7.5400],
+  "New Zealand": [174.8860, -40.9006]
 };
 
-// const dballcountries = [
-//   "Fiji", "Tanzania", "W. Sahara", "Canada", "United States of America", "Kazakhstan", "Uzbekistan", 
-//   "Papua New Guinea", "Indonesia", "Argentina", "Chile", "Dem. Rep. Congo", "Somalia", "Kenya", "Sudan", 
-//   "Chad", "Haiti", "Dominican Rep.", "Russia", "Bahamas", "Falkland Is.", "Norway", "Greenland", 
-//   "Fr. S. Antarctic Lands", "Timor-Leste", "South Africa", "Lesotho", "Mexico", "Uruguay", "Brazil", 
-//   "Bolivia", "Peru", "Colombia", "Panama", "Costa Rica", "Nicaragua", "Honduras", "El Salvador", 
-//   "Guatemala", "Belize", "Venezuela", "Guyana", "Suriname", "France", "Ecuador", "Puerto Rico", 
-//   "Jamaica", "Cuba", "Zimbabwe", "Botswana", "Namibia", "Senegal", "Mali", "Mauritania", "Benin", 
-//   "Niger", "Nigeria", "Cameroon", "Togo", "Ghana", "Côte d'Ivoire", "Guinea", "Guinea-Bissau", "Liberia", 
-//   "Sierra Leone", "Burkina Faso", "Central African Rep.", "Congo", "Gabon", "Eq. Guinea", "Zambia", 
-//   "Malawi", "Mozambique", "eSwatini", "Angola", "Burundi", "Israel", "Lebanon", "Madagascar", 
-//   "Palestine", "Gambia", "Tunisia", "Algeria", "Jordan", "United Arab Emirates", "Qatar", "Kuwait", 
-//   "Iraq", "Oman", "Vanuatu", "Cambodia", "Thailand", "Laos", "Myanmar", "Vietnam", "North Korea", 
-//   "South Korea", "Mongolia", "India", "Bangladesh", "Bhutan", "Nepal", "Pakistan", "Afghanistan", 
-//   "Tajikistan", "Kyrgyzstan", "Turkmenistan", "Iran", "Syria", "Armenia", "Sweden", "Belarus", 
-//   "Ukraine", "Poland", "Austria", "Hungary", "Moldova", "Romania", "Lithuania", "Latvia", "Estonia", 
-//   "Germany", "Bulgaria", "Greece", "Turkey", "Albania", "Croatia", "Switzerland", "Luxembourg", 
-//   "Belgium", "Netherlands", "Portugal", "Spain", "Ireland", "New Caledonia", "Solomon Is.", 
-//   "New Zealand", "Australia", "Sri Lanka", "China", "Taiwan", "Italy", "Denmark", "United Kingdom", 
-//   "Iceland", "Azerbaijan", "Georgia", "Philippines", "Malaysia", "Brunei", "Slovenia", "Finland", 
-//   "Slovakia", "Czechia", "Eritrea", "Japan", "Paraguay", "Yemen", "Saudi Arabia", "Antarctica", 
-//   "N. Cyprus", "Cyprus", "Morocco", "Egypt", "Libya", "Ethiopia", "Djibouti", "Somaliland", "Uganda", 
-//   "Rwanda", "Bosnia and Herz.", "Macedonia", "Serbia", "Montenegro", "Kosovo", "Trinidad and Tobago", 
-//   "S. Sudan"
-// ];
+// Dummy data for accents and countries
+const accentCountryData = {
+  "Ghanaian": {
+    countries: ["Ghana"],
+    data: {
+      name: "Ghana",
+      flagPath: "https://flagcdn.com/w320/gh.png",
+      accents: [
+        {
+          id: 1,
+          name: "Ghanaian English",
+          commonWords: "chale, abi, eii",
+          influence: "Akan, British English, Pidgin",
+          countryNames: ["Ghana"]
+        },
+        {
+          id: 2,
+          name: "Ghanaian Pidgin",
+          commonWords: "dey, small, chop",
+          influence: "English, Akan, Ga, Ewe",
+          countryNames: ["Ghana"]
+        }
+      ]
+    }
+  },
+  "Indian": {
+    countries: ["India"],
+    data: {
+      name: "India",
+      flagPath: "https://flagcdn.com/w320/in.png",
+      accents: [
+        {
+          id: 1,
+          name: "Indian English",
+          commonWords: "yaar, ji, bolo",
+          influence: "British, Hindi, Sanskrit",
+          countryNames: ["India"]
+        },
+        {
+          id: 2,
+          name: "Hinglish",
+          commonWords: "chal, scene kya hai, timepass",
+          influence: "Hindi, English, Urdu",
+          countryNames: ["India"]
+        }
+      ]
+    }
+  },
+  "Philippine": {
+    countries: ["Philippines"],
+    data: {
+      name: "Philippines",
+      flagPath: "https://flagcdn.com/w320/ph.png",
+      accents: [
+        {
+          id: 1,
+          name: "Philippine English",
+          commonWords: "po, kuya, ate",
+          influence: "Tagalog, Spanish, American English",
+          countryNames: ["Philippines"]
+        },
+        {
+          id: 2,
+          name: "Taglish",
+          commonWords: "sige, ano ba, talaga",
+          influence: "Tagalog, English, Spanish",
+          countryNames: ["Philippines"]
+        }
+      ]
+    }
+  },
+  "Gulf": {
+    countries: ["Saudi Arabia", "UAE", "Qatar"],
+    data: {
+      name: "Gulf Countries",
+      flagPath: "https://flagcdn.com/w320/ae.png",
+      accents: [
+        {
+          id: 1,
+          name: "Gulf English",
+          commonWords: "habibi, inshallah, wallah",
+          influence: "Arabic, English, Urdu",
+          countryNames: ["Saudi Arabia", "UAE", "Qatar"]
+        },
+        {
+          id: 2,
+          name: "Khaleeji English",
+          commonWords: "yalla, mashallah, shukran",
+          influence: "Arabic, Persian, English",
+          countryNames: ["Saudi Arabia", "UAE", "Qatar"]
+        }
+      ]
+    }
+  },
+  "French": {
+    countries: ["France", "Belgium", "Canada"],
+    data: {
+      name: "French-influenced English",
+      flagPath: "https://flagcdn.com/w320/fr.png",
+      accents: [
+        {
+          id: 1,
+          name: "Franglais",
+          commonWords: "c'est la vie, déjà vu, bon appétit",
+          influence: "French, English",
+          countryNames: ["France", "Belgium", "Canada"]
+        },
+        {
+          id: 2,
+          name: "Quebec English",
+          commonWords: "depanneur, poutine, tuque",
+          influence: "French, Canadian English",
+          countryNames: ["Canada"]
+        }
+      ]
+    }
+  },
+  "American": {
+    countries: ["United States of America"],
+    data: {
+      name: "United States of America",
+      flagPath: "https://flagcdn.com/w320/us.png",
+      accents: [
+        {
+          id: 1,
+          name: "General American",
+          commonWords: "dude, awesome, bro",
+          influence: "British, Germanic, Indigenous Languages",
+          countryNames: ["United States"]
+        },
+        {
+          id: 2,
+          name: "Southern American",
+          commonWords: "y'all, reckon, fixin'",
+          influence: "British, French, African Languages",
+          countryNames: ["United States"]
+        }
+      ]
+    }
+  },
+  "South African": {
+    countries: ["South Africa"],
+    data: {
+      name: "South Africa",
+      flagPath: "https://flagcdn.com/w320/za.png",
+      accents: [
+        {
+          id: 1,
+          name: "South African English",
+          commonWords: "howzit, lekker, braai",
+          influence: "Afrikaans, Bantu languages, British English",
+          countryNames: ["South Africa"]
+        },
+        {
+          id: 2,
+          name: "Cape Flats English",
+          commonWords: "laaitie, kiff, china",
+          influence: "Afrikaans, English, Malay",
+          countryNames: ["South Africa"]
+        }
+      ]
+    }
+  },
+  "Irish": {
+    countries: ["Ireland"],
+    data: {
+      name: "Ireland",
+      flagPath: "https://flagcdn.com/w320/ie.png",
+      accents: [
+        {
+          id: 1,
+          name: "Hiberno-English",
+          commonWords: "craic, grand, yoke",
+          influence: "Irish Gaelic, English",
+          countryNames: ["Ireland"]
+        },
+        {
+          id: 2,
+          name: "Dublin English",
+          commonWords: "deadly, gas, quare",
+          influence: "Irish Gaelic, English, Norse",
+          countryNames: ["Ireland"]
+        }
+      ]
+    }
+  },
+  "New Zealand": {
+    countries: ["New Zealand"],
+    data: {
+      name: "New Zealand",
+      flagPath: "https://flagcdn.com/w320/nz.png",
+      accents: [
+        {
+          id: 1,
+          name: "New Zealand English",
+          commonWords: "sweet as, chur, jandals",
+          influence: "Māori, British English, Australian English",
+          countryNames: ["New Zealand"]
+        },
+        {
+          id: 2,
+          name: "Kiwi English",
+          commonWords: "bach, dairy, tramping",
+          influence: "Māori, English, Scottish",
+          countryNames: ["New Zealand"]
+        }
+      ]
+    }
+  },
+  "Nigerian": {
+    countries: ["Nigeria"],
+    data: {
+      name: "Nigeria",
+      flagPath: "https://flagcdn.com/w320/ng.png",
+      accents: [
+        {
+          id: 1,
+          name: "Nigerian English",
+          commonWords: "na wa, abeg, una",
+          influence: "Pidgin, Yoruba, Igbo, Hausa",
+          countryNames: ["Nigeria"]
+        },
+        {
+          id: 2,
+          name: "Nigerian Pidgin",
+          commonWords: "wahala, chop, shakara",
+          influence: "English, Yoruba, Portuguese",
+          countryNames: ["Nigeria"]
+        }
+      ]
+    }
+  }
+};
 
 
-// const backendData = [
-//   {
-//     id: 1,
-//     name: "United States of America",
-//     flagPath: "/flags/us.png", // Local path (if available)
-//     accents: [
-//       {
-//         id: 1,
-//         name: "General American",
-//         commonWords: "dude, awesome, bro",
-//         influence: "British, Germanic, Indigenous Languages",
-//         countryNames: ["United States"]
-//       },
-//       {
-//         id: 2,
-//         name: "Southern American",
-//         commonWords: "y'all, reckon, fixin'",
-//         influence: "British, French, African Languages",
-//         countryNames: ["United States"]
-//       }
-//     ]
-//   },
-//   {
-//     id: 2,
-//     name: "Australia",
-//     flagPath: "/flags/au.png", // Local path (if available)
-//     accents: [
-//       {
-//         id: 1,
-//         name: "Australian",
-//         commonWords: "g'day, mate, no worries",
-//         influence: "British, Irish, Aboriginal Languages",
-//         countryNames: ["Australia"]
-//       },
-//       {
-//         id: 2,
-//         name: "Broad Australian",
-//         commonWords: "crikey, fair dinkum, arvo",
-//         influence: "British, Australian Slang",
-//         countryNames: ["Australia"]
-//       }
-//     ]
-//   },
-//   {
-//     id: 3,
-//     name: "Canada",
-//     flagPath: "/flags/ca.png", // Local path (if available)
-//     accents: [
-//       {
-//         id: 1,
-//         name: "Canadian English",
-//         commonWords: "eh, toque, loonie",
-//         influence: "British, French, Indigenous Languages",
-//         countryNames: ["Canada"]
-//       },
-//       {
-//         id: 2,
-//         name: "Newfoundland English",
-//         commonWords: "b'y, luh, scoff",
-//         influence: "Irish, Scottish, English",
-//         countryNames: ["Canada"]
-//       }
-//     ]
-//   },
-//   {
-//     id: 4,
-//     name: "India",
-//     flagPath: "/flags/India.jpg", // Local path (public(folder)/falgs/India.jpg)  (https://flagcdn.com/w320/in.png)
-//     accents: [
-//       {
-//         id: 1,
-//         name: "Indian",
-//         commonWords: "yaar, ji, bolo",
-//         influence: "British, Hindi, Sanskrit",
-//         countryNames: ["India"]
-//       },
-//       {
-//         id: 2,
-//         name: "Hinglish",
-//         commonWords: "chal, scene kya hai, timepass",
-//         influence: "Hindi, English, Urdu",
-//         countryNames: ["India"]
-//       },
-//       {
-//         id: 3,
-//         name: "South Indian English",
-//         commonWords: "aiyo, saar, enna",
-//         influence: "Dravidian Languages, British English",
-//         countryNames: ["India"]
-//       },
-//       {
-//         id: 4,
-//         name: "Bengali English",
-//         commonWords: "ki koreche, baba, ekdom",
-//         influence: "Bengali, British English",
-//         countryNames: ["India"]
-//       }
-//     ]
-//   }
-// ];
-
-const WorldMap = ({accentName}) => {
+const WorldMap = ({ accentName }) => {
   const [highlightedCountries, setHighlightedCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [countryData, setCountryData] = useState(null);
@@ -216,37 +329,73 @@ const WorldMap = ({accentName}) => {
   const [loading, setLoading] = useState(false);
   const [loadingFlag, setLoadingFlag] = useState(false);
   const [expandedAccents, setExpandedAccents] = useState({});
+  const [hoveredCountry, setHoveredCountry] = useState(null);
 
   useEffect(() => {
+    // Using dummy data instead of API call
+    // if (accentName && accentCountryData[accentName]) {
+    //   setHighlightedCountries(accentCountryData[accentName].countries);
+    // } else {
+    //   setHighlightedCountries([]);
+    // }
+
+    // Commented out API request
     async function getdata() {
       const response = await apiRequest("GET", `/api/accent/${accentName}/countries`, null, true);
-
       if (!response.success) {
         console.log("Failed to get countries...")
         return;
       }      
       
       const countrylist = response.data;
+      console.log(countrylist);
       setHighlightedCountries(countrylist);
     }
 
     getdata();
-  },[]);
+  }, [accentName]);
 
   useEffect(() => {
+    // // Using dummy data instead of API call
+    // if (selectedCountry) {
+    //   setLoading(true);
+    //   setLoadingFlag(true);
+      
+    //   // Find which accent this country belongs to
+    //   let foundAccent = null;
+    //   for (const [accent, data] of Object.entries(accentCountryData)) {
+    //     if (data.countries.includes(selectedCountry)) {
+    //       foundAccent = accent;
+    //       break;
+    //     }
+    //   }
+      
+    //   if (foundAccent) {
+    //     setCountryData(accentCountryData[foundAccent].data);
+    //     setCountryFlag(accentCountryData[foundAccent].data.flagPath);
+    //   } else {
+    //     setCountryData(null);
+    //     setCountryFlag("");
+    //   }
+      
+    //   setLoading(false);
+    //   setLoadingFlag(false);
+    // }
+
+    // Commented out API request
     async function getdata(){
       if (selectedCountry) {
         setLoading(true);
         setLoadingFlag(true); 
   
-      const response = await apiRequest("GET", `/api/countries/name/${selectedCountry}`, null, true);
+        const response = await apiRequest("GET", `/api/countries/name/${selectedCountry}`, null, true);
   
-      if (!response.success) {
-        console.log("Failed to get countries...")
-        return;
-      }      
-      
-      const data = response.data;
+        if (!response.success) {
+          console.log("Failed to get countries...")
+          return;
+        }      
+        
+        const data = response.data;
   
         if (data) {
           setCountryData(data);
@@ -262,6 +411,7 @@ const WorldMap = ({accentName}) => {
     getdata();
   }, [selectedCountry]);
 
+  // Commented out flag loading function since we're using direct URLs
   const loadFlag = (flagPath) => {
     const img = new Image();
     img.src = flagPath;
@@ -283,31 +433,25 @@ const WorldMap = ({accentName}) => {
             setCountryFlag("");
           }
         )
-        .finally(() => setLoadingFlag(false)); // Stop flag loading
+        .finally(() => setLoadingFlag(false));
     };
-
-
-    // console.log(flagPath);
-    // fetch(flagPath)
-    // .then((response) => response.json())
-    // .then((apiData) => {
-    //   if (apiData && apiData[0]?.flags?.png) {
-    //     setCountryFlag(apiData[0].flags.png);
-    //   } else {
-    //     setCountryFlag(""); 
-    //   }
-    // })
-    // .catch((error) => {
-    //   console.error("Error fetching flag:", error);
-    //   setCountryFlag("");
-    // })
-    // .finally(() => setLoadingFlag(false)); 
   };
 
   const handleCountryClick = (event, countryName) => {
     event.stopPropagation();
     setSelectedCountry(countryName);
     setExpandedAccents({});
+  };
+
+  const handleCountryHover = (geo) => {
+    const countryName = geo.properties.name;
+    if (highlightedCountries.includes(countryName)) {
+      setHoveredCountry(countryName);
+    }
+  };
+
+  const handleCountryLeave = () => {
+    setHoveredCountry(null);
   };
 
   const toggleAccentDetails = (accent) => {
@@ -317,46 +461,79 @@ const WorldMap = ({accentName}) => {
     }));
   };
 
-
   return (
     <Paper elevation={3} sx={{ padding: 2, margin: 2, borderRadius: 1, backgroundColor: "#1E1E1E" }}>
-      <Box sx={{ width: "100%", height: "500px", marginTop: "20px" }}>
+      {/* Added title section */}
+      <Box sx={{ textAlign: "center", mb: 2 }}>
+        <Typography variant="h5" sx={{ color: "#4CAF50", fontWeight: "bold" }}>
+          Accent: {accentName}
+        </Typography>
+        <Typography variant="subtitle1" sx={{ color: "#BBB", mt: 1 }}>
+          Spoken in: {highlightedCountries.join(", ")}
+        </Typography>
+      </Box>
+
+      <Box sx={{ width: "100%", height: "500px" }}>
         <ComposableMap projectionConfig={{ scale: 220 }} style={{ width: "100%", height: "100%", backgroundColor: "#121212" }}>
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map((geo) => {
                 const countryName = geo.properties.name;
                 const isHighlighted = highlightedCountries.includes(countryName);
+                const isHovered = hoveredCountry === countryName;
+
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    fill={isHighlighted ? "url(#highlightGradient)" : "#2C2C2C"}
+                    fill={isHighlighted ? 
+                      (isHovered ? "url(#hoverGradient)" : "url(#highlightGradient)") : 
+                      "#2C2C2C"}
                     stroke="#FFF"
-                    style={{ default: { outline: "none" }, hover: { outline: "none", cursor: "pointer" }, pressed: { outline: "none" } }}
-                    onClick={(event) => handleCountryClick(event, countryName)}
+                    style={{
+                      default: { outline: "none" },
+                      hover: { 
+                        outline: "none", 
+                        cursor: isHighlighted ? "pointer" : "default",
+                        filter: isHighlighted ? "brightness(1.2)" : "none"
+                      },
+                      pressed: { outline: "none" }
+                    }}
+                    onClick={(event) => isHighlighted && handleCountryClick(event, countryName)}
+                    onMouseEnter={() => handleCountryHover(geo)}
+                    onMouseLeave={handleCountryLeave}
                   />
                 );
               })
             }
           </Geographies>
-          {highlightedCountries.map((country) =>
-            countryCoordinates[country] ? (
-              <Marker key={country} coordinates={countryCoordinates[country]}>
-                <text
-                  textAnchor="middle"
-                  style={{ fontSize: "14px", fontWeight: "bold", fill: "#FFF", cursor: "pointer" }}
-                  onClick={(event) => handleCountryClick(event, country)}
-                >
-                  {country}
-                </text>
-              </Marker>
-            ) : null
+
+          {/* Show country name only when hovered and highlighted */}
+          {hoveredCountry && countryCoordinates[hoveredCountry] && (
+            <Marker key={`hover-${hoveredCountry}`} coordinates={countryCoordinates[hoveredCountry]}>
+              <text
+                textAnchor="middle"
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  fill: "#FFF",
+                  textShadow: "0 0 8px rgba(76, 175, 80, 0.8)",
+                  transition: "all 0.3s ease"
+                }}
+              >
+                {hoveredCountry}
+              </text>
+            </Marker>
           )}
+
           <defs>
             <linearGradient id="highlightGradient" x1="0" y1="0" x2="1" y2="1">
               <stop offset="30%" stopColor="#4CAF50" />
               <stop offset="90%" stopColor="#8BC34A" />
+            </linearGradient>
+            <linearGradient id="hoverGradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="10%" stopColor="#8BC34A" />
+              <stop offset="90%" stopColor="#4CAF50" />
             </linearGradient>
           </defs>
         </ComposableMap>
@@ -395,7 +572,7 @@ const WorldMap = ({accentName}) => {
           ) : (
             <>
               <Box sx={{ marginTop: "10px", display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-                {loadingFlag ? ( // Show spinner while loading the flag
+                {loadingFlag ? (
                   <CircularProgress sx={{ color: "#4CAF50" }} />
                 ) : (
                   countryFlag && (
