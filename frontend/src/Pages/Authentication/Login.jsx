@@ -98,7 +98,7 @@
 
 // export default Login;
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Alert, CircularProgress } from "@mui/material";
 import "../../Styles/styles.css";
@@ -113,6 +113,15 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+
+    if(token){
+      navigate('/dashboard/home');
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

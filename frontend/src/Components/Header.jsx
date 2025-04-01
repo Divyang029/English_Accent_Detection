@@ -28,6 +28,8 @@ import {
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { useNavigate } from "react-router-dom";
 import ProfilePopover from "../Pages/Profile/ProfilePopover";
+import apiRequest from "../Services/apiService";
+
 
 const Header = ({ handleLogout }) => {
   const navigate = useNavigate();
@@ -35,28 +37,37 @@ const Header = ({ handleLogout }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [menuOpen, setMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [profileChange, setProfileChange] = useState(false);
 
-  const getUserProfile = () => {
-    const storedProfile = localStorage.getItem('userProfile');
-    return storedProfile ? JSON.parse(storedProfile) : {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john.doe@example.com',
-      avatar: '/api/placeholder/200/200'
-    };
-  };
 
-  const [userProfile, setUserProfile] = useState(getUserProfile());
+  const [userProfile, setUserProfile] = useState({});
 
   useEffect(() => {
+    async function fetchdata (){
+      const response = await apiRequest("GET", "/api/user/profile", null, true);
+      if (response.success) {
+        setUserProfile(response.data); 
+      }
+      else{
+        console.error(`Error (${response.status}):`, response.error);     
+      } 
+    }
+        
+    fetchdata();
+
     // Update userProfile when it changes in localStorage
-    const handleStorageChange = () => {
-      setUserProfile(getUserProfile());
-    };
     
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+    // const storedProfile = localStorage.getItem('userProfile');
+    // return storedProfile ? JSON.parse(storedProfile) : {
+    //   firstName: 'John',
+    //   lastName: 'Doe',
+    //   email: 'john.doe@example.com',
+    //   avatar: '/api/placeholder/200/200'
+    // };
+
+    // window.addEventListener('storage', handleStorageChange);
+    // return () => window.removeEventListener('storage', handleStorageChange);
+  }, [profileChange]);
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
@@ -310,6 +321,7 @@ const Header = ({ handleLogout }) => {
         userProfile={userProfile}
         setUserProfile={setUserProfile}
         handleLogout={handleLogoutClick}
+        setprofileChange={setProfileChange}
       />
     </header>
   );
