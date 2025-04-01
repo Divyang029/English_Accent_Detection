@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import Header from '../../Components/Header.jsx';
-import Footer from '../../components/Footer.jsx';
+import Footer from '../../Components/Footer.jsx';
 import Home from '../Home/Home.jsx';
 import HistoryPage from '../History/History.jsx';
 import "../../Styles/Dashboard.css";
