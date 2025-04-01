@@ -1115,75 +1115,170 @@ const HistoryPage = () => {
                   transform: "translateY(-2px)"
                 }
               }}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} md={5}>
-                    <Box>
-                      <Typography variant="subtitle2" sx={{ color: "#999", mb: 1 }}>Audio Recording</Typography>
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                        <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                          {audioStates[row.id] ? (
-                            <IconButton onClick={() => handlePause(row.id)} size="small" sx={{ color: "#fff", bgcolor: "#4CAF50", width: 32, height: 32, mr: 1, "&:hover": { bgcolor: "#3d8b40" } }}>
-                              <Pause fontSize="small" />
-                            </IconButton>
-                          ) : (
-                            <IconButton onClick={() => handlePlay(row.id, row.voiceUrl)} size="small" sx={{ color: "#fff", bgcolor: "#4CAF50", width: 32, height: 32, mr: 1, "&:hover": { bgcolor: "#3d8b40" } }}>
-                              <PlayArrow fontSize="small" />
-                            </IconButton>
-                          )}
-                          <Tooltip title="Restart">
-                            <IconButton onClick={() => handleRestart(row.id)} size="small" sx={{ color: "#E0E0E0", width: 32, height: 32, mr: 1 }}>
-                              <Refresh fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Download">
-                            <IconButton onClick={() => handleDownload(row.voiceUrl, row.detectedAccent)} size="small" sx={{ color: "#E0E0E0", width: 32, height: 32, mr: 1 }}>
-                              <Download fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Delete">
-                            <IconButton onClick={() => { setItemToDelete(row.id); setDeleteConfirmationOpen(true); }} size="small" sx={{ color: "#F44336", width: 32, height: 32, "&:hover": { bgcolor: "rgba(244, 67, 54, 0.1)" } }}>
-                              <Delete fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                        </Box>
-                      </Box>
-                      <Paper sx={{ p: 1.5, mt: 1, bgcolor: "#191919", borderRadius: 1, border: "1px solid #333" }}>
-                        <Box ref={el => containerRefs.current[row.id] = el} sx={{ width: "100%", height: 40 }} />
-                        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 0.5 }}>
-                          <Typography variant="caption" sx={{ color: "#999" }}>
-                            {playTimes[row.id]?.current || "0:00"} / {playTimes[row.id]?.duration || row.duration}
-                          </Typography>
-                          <Typography variant="caption" sx={{ color: "#999" }}>
-                            Recorded: {row.recordedDate}
-                          </Typography>
-                        </Box>
-                      </Paper>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <Box>
-                      <Typography variant="subtitle2" sx={{ color: "#999", mb: 1 }}>Detected Accent</Typography>
-                      <Box sx={{ bgcolor: "#191919", p: 2, borderRadius: 1, border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", height: "82px" }}>
-                        <Typography variant="h5" sx={{ color: "#E0E0E0", fontWeight: "bold" }}>{row.detectedAccent}</Typography>
-                      </Box>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={3}>
-                    <Box>
-                      <Typography variant="subtitle2" sx={{ color: "#999", mb: 1 }}>Confidence Score</Typography>
-                      <Box sx={{ bgcolor: "#191919", p: 2, borderRadius: 1, border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", height: "82px" }}>
-                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-                          <Box sx={{ width: "100%", height: "8px", bgcolor: "#333", borderRadius: "4px", overflow: "hidden", mb: 1 }}>
-                            <Box sx={{ width: `${row.confidenceScore}%`, height: "100%", bgcolor: getConfidenceColor(row.confidenceScore), borderRadius: "4px" }} />
-                          </Box>
-                          <Typography variant="h6" sx={{ color: getConfidenceColor(row.confidenceScore), fontWeight: "bold" }}>
-                            {row.confidenceScore}%
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Box>
-                  </Grid>
-                </Grid>
+
+
+
+                {/* Fixed ratio grid layout: 5:4:3 */}
+                <Grid container spacing={2} sx={{ position: "relative", display: 'flex', flexWrap: 'nowrap' }}>
+  {/* Column 1: Audio File - 5 parts */}
+  <Grid item xs={12} md={5} sx={{ 
+    display: "flex", 
+    flexDirection: "column",
+    borderRight: { xs: "none", md: "1px dashed #333" },
+    pb: { xs: 2, md: 0 },
+    position: "relative",
+    flex: '5 0 0px', // Flex ratio 5
+    minWidth: 0,
+    overflow: 'hidden',
+    pr: 2
+  }}>
+    <Typography variant="subtitle2" sx={{ color: "#999", mb: 1 }}>Audio Recording</Typography>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
+      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        {audioStates[row.id] ? (
+          <IconButton onClick={() => handlePause(row.id)} size="small" sx={{ color: "#fff", bgcolor: "#4CAF50", width: 32, height: 32, mr: 1, "&:hover": { bgcolor: "#3d8b40" } }}>
+            <Pause fontSize="small" />
+          </IconButton>
+        ) : (
+          <IconButton onClick={() => handlePlay(row.id, row.voiceUrl)} size="small" sx={{ color: "#fff", bgcolor: "#4CAF50", width: 32, height: 32, mr: 1, "&:hover": { bgcolor: "#3d8b40" } }}>
+            <PlayArrow fontSize="small" />
+          </IconButton>
+        )}
+        <Tooltip title="Restart">
+          <IconButton onClick={() => handleRestart(row.id)} size="small" sx={{ color: "#E0E0E0", width: 32, height: 32, mr: 1 }}>
+            <Refresh fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Download">
+          <IconButton onClick={() => handleDownload(row.voiceUrl, row.detectedAccent)} size="small" sx={{ color: "#E0E0E0", width: 32, height: 32, mr: 1 }}>
+            <Download fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete">
+          <IconButton onClick={() => { setItemToDelete(row.id); setDeleteConfirmationOpen(true); }} size="small" sx={{ color: "#F44336", width: 32, height: 32, "&:hover": { bgcolor: "rgba(244, 67, 54, 0.1)" } }}>
+            <Delete fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    </Box>
+    <Paper sx={{ 
+      p: 1.5, 
+      bgcolor: "#191919", 
+      borderRadius: 1, 
+      border: "1px solid #333", 
+      flexGrow: 1,
+      minWidth: 0
+    }}>
+      <Box ref={el => containerRefs.current[row.id] = el} sx={{ width: "100%", height: 40 }} />
+      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 0.5 }}>
+        <Typography noWrap variant="caption" sx={{ color: "#999", maxWidth: '45%' }}>
+          {playTimes[row.id]?.current || "0:00"} / {playTimes[row.id]?.duration || row.duration}
+        </Typography>
+        <Typography noWrap variant="caption" sx={{ color: "#999", maxWidth: '45%', textAlign: 'right' }}>
+          Recorded: {row.recordedDate}
+        </Typography>
+      </Box>
+    </Paper>
+  </Grid>
+  
+  {/* Column 2: Detected Accent - 4 parts */}
+  <Grid item xs={12} md={4} sx={{ 
+    display: "flex", 
+    flexDirection: "column",
+    borderRight: { xs: "none", md: "1px dashed #333" },
+    pb: { xs: 2, md: 0 },
+    position: "relative",
+    flex: '4 0 0px', // Flex ratio 4
+    minWidth: 0,
+    overflow: 'hidden',
+    px: 2
+  }}>
+    <Typography variant="subtitle2" sx={{ color: "#999", mb: 1 }}>Detected Accent</Typography>
+    <Box sx={{ 
+      bgcolor: "#191919", 
+      p: 2, 
+      borderRadius: 1, 
+      border: "1px solid #333",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexGrow: 1,
+      minHeight: "90px",
+      minWidth: 0
+    }}>
+      <Typography noWrap variant="body1" sx={{ 
+        color: "#E0E0E0", 
+        fontWeight: "bold",
+        width: '100%',
+        textAlign: 'center',
+        textOverflow: 'ellipsis',
+        overflow: 'hidden'
+      }}>
+        {row.detectedAccent}
+      </Typography>
+    </Box>
+  </Grid>
+  
+  {/* Column 3: Confidence Score - 3 parts */}
+  <Grid item xs={12} md={3} sx={{ 
+    display: "flex", 
+    flexDirection: "column",
+    position: "relative",
+    flex: '3 0 0px', // Flex ratio 3
+    minWidth: 0,
+    overflow: 'hidden',
+    pl: 2
+  }}>
+    <Typography variant="subtitle2" sx={{ color: "#999", mb: 1 }}>Confidence Score</Typography>
+    <Box sx={{ 
+      bgcolor: "#191919", 
+      p: 2, 
+      borderRadius: 1, 
+      border: "1px solid #333",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexGrow: 1,
+      minHeight: "90px",
+      minWidth: 0
+    }}>
+      <Box sx={{ 
+        display: "flex", 
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        width: "100%",
+        minWidth: 0
+      }}>
+        <Box sx={{ 
+          width: "30%",  // adjust size of cofidence score line length
+          height: "6px",
+          bgcolor: "#333", 
+          borderRadius: "4px",
+          overflow: "hidden",
+          mb: 1
+        }}>
+          <Box sx={{ 
+            width: `${row.confidenceScore}%`, 
+            height: "100%", 
+            bgcolor: getConfidenceColor(row.confidenceScore),
+            borderRadius: "4px"
+          }} />
+        </Box>
+        <Typography noWrap variant="body1" sx={{ 
+          color: getConfidenceColor(row.confidenceScore),
+          fontWeight: "bold",
+          textAlign: 'center',
+          width: '60%'
+        }}>
+          {row.confidenceScore}%
+        </Typography>
+      </Box>
+    </Box>
+  </Grid>
+</Grid>
+
+                
               </Paper>
             </Fade>
           ))}

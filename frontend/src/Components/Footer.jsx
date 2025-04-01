@@ -64,158 +64,289 @@ const Footer = () => {
       sx={{ 
         bgcolor: "#121212", 
         color: "#fff", 
+        width: "100%",
         mt: "auto",
         borderTop: "1px solid rgba(81, 81, 81, 0.3)",
       }}
     >
-      <Container maxWidth="lg">
-        <Grid container spacing={3} sx={{ py: 4 }} justifyContent="center">
-          {/* Brand and description */}
-          <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
-            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", maxWidth: "240px" }}>
-              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mb: 1 }}>
-                <MicIcon sx={{ color: "#4CAF50", mr: 1, fontSize: 24 }} />
-                <Typography 
-                  variant="h6" 
+      {/* Full-width background container */}
+      <Box sx={{ width: "90%", px: { xs: 2, sm: 3 } }}>
+        <Container 
+          maxWidth="xl" 
+          sx={{ 
+            width: "100%",
+            px: { xs: 2, sm: 3, md: 4 }
+          }}
+        >
+          {/* Main footer content with improved spacing */}
+          <Grid 
+            container 
+            spacing={{ xs: 4, md: 5 }} 
+            sx={{ 
+              py: { xs: 4, md: 5 },
+              alignItems: "flex-start",
+              justifyContent: "space-between"
+            }}
+          >
+            {/* Brand and description - center aligned on all devices */}
+            <Grid 
+              item 
+              xs={12} 
+              sm={6}
+              md={3} 
+              sx={{ 
+                display: 'flex', 
+                flexDirection: 'column',
+                alignItems: 'center',
+                mb: { xs: 3, sm: 0 }
+              }}
+            >
+              <Box 
+                sx={{ 
+                  display: "flex", 
+                  flexDirection: "column", 
+                  alignItems: 'center', 
+                  width: '100%', 
+                  maxWidth: { xs: "100%", sm: "280px" }
+                }}
+              >
+                <Box 
                   sx={{ 
-                    fontWeight: 700,
-                    background: 'linear-gradient(45deg, #4CAF50 30%, #8BC34A 90%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    display: 'inline-block',
-                    fontSize: '1.1rem',
+                    display: "flex", 
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mb: 2
                   }}
                 >
-                  AccentAI
-                </Typography>
-              </Box>
-              <Typography variant="body2" sx={{ color: "#9E9E9E", mb: 1.5, fontSize: '0.8rem', textAlign: 'center' }}>
-                Analyze and improve your accent with AI-powered technology for language learners worldwide.
-              </Typography>
-              <Stack direction="row" spacing={0.5} justifyContent="center">
-                {socialLinks.map((social, index) => (
-                  <IconButton 
-                    key={index} 
-                    component="a" 
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Social link ${index}`}
-                    size="small"
+                  <MicIcon sx={{ color: "#4CAF50", mr: 1, fontSize: 28 }} />
+                  <Typography 
+                    variant="h6" 
                     sx={{ 
-                      color: '#9E9E9E',
-                      p: 0.5,
-                      '&:hover': {
-                        color: '#4CAF50',
-                        bgcolor: 'rgba(76, 175, 80, 0.08)'
-                      }
+                      fontWeight: 700,
+                      background: 'linear-gradient(45deg, #4CAF50 30%, #8BC34A 90%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      display: 'inline-block',
+                      fontSize: '1.2rem',
                     }}
                   >
-                    {social.icon}
-                  </IconButton>
-                ))}
-              </Stack>
-            </Box>
-          </Grid>
-          
-          {/* Footer links - centered alignment */}
-          {footerLinks.map((section) => (
-            <Grid item xs={6} sm={4} md={2} key={section.section} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    AccentAI
+                  </Typography>
+                </Box>
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    color: "#9E9E9E", 
+                    mb: 2.5, 
+                    fontSize: '0.85rem', 
+                    textAlign: 'center',
+                    lineHeight: 1.6,
+                    px: 1
+                  }}
+                >
+                  Analyze and improve your accent with AI-powered technology for language learners worldwide.
+                </Typography>
+                <Stack 
+                  direction="row" 
+                  spacing={1.5} 
+                  sx={{
+                    justifyContent: 'center',
+                    width: '100%'
+                  }}
+                >
+                  {socialLinks.map((social, index) => (
+                    <IconButton 
+                      key={index} 
+                      component="a" 
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Social link ${index}`}
+                      size="small"
+                      sx={{ 
+                        color: '#9E9E9E',
+                        p: 0.8,
+                        '&:hover': {
+                          color: '#4CAF50',
+                          bgcolor: 'rgba(76, 175, 80, 0.08)'
+                        }
+                      }}
+                    >
+                      {social.icon}
+                    </IconButton>
+                  ))}
+                </Stack>
+              </Box>
+            </Grid>
+            
+            {/* Footer links with consistent center alignment */}
+            {footerLinks.map((section) => (
+              <Grid 
+                item 
+                xs={12} 
+                sm={4} 
+                md={2} 
+                key={section.section} 
+                sx={{ 
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  mb: { xs: 3, sm: 0 }
+                }}
+              >
+                <Typography 
+                  variant="subtitle2" 
+                  sx={{ 
+                    color: "#E0E0E0", 
+                    fontWeight: 600, 
+                    mb: 2,
+                    fontSize: '0.9rem',
+                    textAlign: 'center',
+                    width: '100%'
+                  }}
+                >
+                  {section.section}
+                </Typography>
+                <Box 
+                  component="ul" 
+                  sx={{ 
+                    p: 0, 
+                    m: 0, 
+                    listStyle: 'none', 
+                    textAlign: 'center',
+                    width: '100%'
+                  }}
+                >
+                  {section.links.map((link, index) => (
+                    <Box component="li" key={index} sx={{ mb: 1.5 }}>
+                      {typeof link === 'string' ? (
+                        <Typography
+                          sx={{ 
+                            color: '#9E9E9E', 
+                            fontSize: '0.8rem',
+                            width: '100%'
+                          }}
+                        >
+                          {link}
+                        </Typography>
+                      ) : (
+                        <Link 
+                          href={link.url}
+                          underline="none"
+                          target={link.external ? "_blank" : "_self"}
+                          rel={link.external ? "noopener noreferrer" : ""}
+                          sx={{ 
+                            color: '#9E9E9E', 
+                            fontSize: '0.8rem',
+                            display: 'block',
+                            width: '100%',
+                            transition: 'color 0.2s ease',
+                            '&:hover': { 
+                              color: '#4CAF50',
+                              textDecoration: 'none'
+                            }
+                          }}
+                        >
+                          {link.name}
+                        </Link>
+                      )}
+                    </Box>
+                  ))}
+                </Box>
+              </Grid>
+            ))}
+            
+            {/* Contact section with center alignment */}
+            <Grid 
+              item 
+              xs={12} 
+              sm={4} 
+              md={3} 
+              sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center',
+                mt: { xs: 0, sm: 0 }
+              }}
+            >
               <Typography 
                 variant="subtitle2" 
                 sx={{ 
                   color: "#E0E0E0", 
                   fontWeight: 600, 
-                  mb: 1.5,
-                  fontSize: '0.85rem',
-                  textAlign: 'center'
+                  mb: 2,
+                  fontSize: '0.9rem',
+                  textAlign: 'center',
+                  width: '100%'
                 }}
               >
-                {section.section}
+                Contact Us
               </Typography>
-              <Box component="ul" sx={{ p: 0, m: 0, listStyle: 'none', textAlign: 'center' }}>
-                {section.links.map((link, index) => (
-                  <Box component="li" key={index} sx={{ mb: 0.75 }}>
-                    {typeof link === 'string' ? (
-                      <Typography
-                        sx={{ 
-                          color: '#9E9E9E', 
-                          fontSize: '0.75rem',
-                          textAlign: 'center'
-                        }}
-                      >
-                        {link}
-                      </Typography>
-                    ) : (
-                      <Link 
-                        href={link.url}
-                        underline="none"
-                        target={link.external ? "_blank" : "_self"}
-                        rel={link.external ? "noopener noreferrer" : ""}
-                        sx={{ 
-                          color: '#9E9E9E', 
-                          fontSize: '0.75rem',
-                          display: 'block',
-                          textAlign: 'center',
-                          '&:hover': { 
-                            color: '#4CAF50',
-                            textDecoration: 'none'
-                          }
-                        }}
-                      >
-                        {link.name}
-                      </Link>
-                    )}
-                  </Box>
-                ))}
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  mb: 1.5,
+                  width: '100%'
+                }}
+              >
+                <EmailIcon fontSize="small" sx={{ color: '#9E9E9E', mr: 1, fontSize: '0.9rem' }} />
+                <Typography 
+                  variant="body2" 
+                  component="a" 
+                  href="mailto:support@accentai.com"
+                  sx={{ 
+                    color: '#9E9E9E', 
+                    textDecoration: 'none',
+                    fontSize: '0.8rem',
+                    '&:hover': { color: '#4CAF50' }
+                  }}
+                >
+                  support@accentai.com
+                </Typography>
               </Box>
             </Grid>
-          ))}
+          </Grid>
           
-          {/* Contact - centered */}
-          <Grid item xs={12} sm={4} md={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Divider sx={{ bgcolor: "rgba(255, 255, 255, 0.12)", my: 2 }} />
+          
+          {/* Copyright section with center alignment */}
+          <Box 
+            sx={{ 
+              py: 3,
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: { xs: 3, sm: 50 } // Increased gap values
+            }}
+          >
             <Typography 
-              variant="subtitle2" 
+              variant="body2" 
               sx={{ 
-                color: "#E0E0E0", 
-                fontWeight: 600, 
-                mb: 1.5,
-                fontSize: '0.85rem',
-                textAlign: 'center'
+                color: "#9E9E9E", 
+                fontSize: '0.75rem', 
+                textAlign: 'center',
+                px: { sm: 2 } // Added horizontal padding on sm+ screens
               }}
             >
-              Contact Us
+              © {currentYear} AccentAI. All rights reserved.
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 1 }}>
-              <EmailIcon fontSize="small" sx={{ color: '#9E9E9E', mr: 1, fontSize: '0.85rem' }} />
-              <Typography 
-                variant="body2" 
-                component="a" 
-                href="mailto:support@accentai.com"
-                sx={{ 
-                  color: '#9E9E9E', 
-                  textDecoration: 'none',
-                  fontSize: '0.75rem',
-                  '&:hover': { color: '#4CAF50' }
-                }}
-              >
-                support@accentai.com
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        
-        <Divider sx={{ bgcolor: "rgba(255, 255, 255, 0.12)" }} />
-        
-        <Box sx={{ py: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
-          <Typography variant="body2" sx={{ color: "#9E9E9E", fontSize: '0.7rem', mx: 'auto', textAlign: 'center' }}>
-            © {currentYear} AccentAI. All rights reserved.
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#9E9E9E", fontSize: '0.7rem', mx: 'auto', textAlign: 'center' }}>
-            Made with ❤️ for language learners worldwide
-          </Typography>
-        </Box>
-      </Container>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: "#9E9E9E", 
+                fontSize: '0.75rem',
+                textAlign: 'center',
+                px: { sm: 2 } // Added horizontal padding on sm+ screens
+              }}
+            >
+              Made with ❤️ for language learners worldwide
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
     </Box>
   );
 };
