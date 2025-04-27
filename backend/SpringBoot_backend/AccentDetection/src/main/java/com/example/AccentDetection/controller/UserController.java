@@ -1,6 +1,7 @@
 package com.example.AccentDetection.controller;
 
 import com.example.AccentDetection.dto.ResetPasswordRequest;
+import com.example.AccentDetection.dto.UserProfileDTO;
 import com.example.AccentDetection.entity.User;
 import com.example.AccentDetection.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,5 +73,27 @@ public class UserController {
             response.put("message","Failed to delete account. Try again later !!");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserProfileDTO> getUserProfile(Authentication authentication) {
+        UserProfileDTO profile = userService.getUserProfile();
+        return ResponseEntity.ok(profile);
+    }
+
+    @PutMapping(value = "/profile", consumes = {"multipart/form-data"})
+    public ResponseEntity<UserProfileDTO> updateUserProfile(
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(value = "avatar", required = false) MultipartFile avatar) {
+
+        UserProfileDTO updatedProfile = null;
+        try {
+            updatedProfile = userService.updateUserProfile(firstName, lastName, avatar);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
+        return ResponseEntity.ok(updatedProfile);
     }
 }

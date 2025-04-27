@@ -55,7 +55,7 @@ public class PredictionServiceImpl implements PredictionService {
         return predictionRepository.findById(id);
     }
 
-    public String uploadVoice(MultipartFile voiceData) throws IOException {
+    private String uploadVoice(MultipartFile voiceData) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userRepository.findByEmail(email).orElse(null);
@@ -65,7 +65,7 @@ public class PredictionServiceImpl implements PredictionService {
         fullFilename += UUID.randomUUID().toString();
 
         BlobClient blobClient = blobServiceClient
-                .getBlobContainerClient(env.getProperty("CONTAINER_NAME"))
+                .getBlobContainerClient(env.getProperty("VOICE_CONTAINER_NAME"))
                 .getBlobClient(fullFilename);
 
         blobClient.upload(voiceData.getInputStream(),voiceData.getSize(),true);
@@ -105,7 +105,7 @@ public class PredictionServiceImpl implements PredictionService {
     }
 
     // Method to delete a file using the Blob URL
-    public void deleteBlobByUrl(String blobUrl) {
+    private void deleteBlobByUrl(String blobUrl) {
         try {
             // Extract container name and blob name from the URL
             String[] parts = blobUrl.split("/");

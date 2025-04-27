@@ -44,7 +44,16 @@ public class AccentController {
     public Optional<AccentDTO> getAccentById(Long id) {
         return accentService.getAccentById(id).map(this::mapToDTO);
     }
-    
+
+    // Get names of all accents
+    @GetMapping("/names")
+    public List<String> getAllAccentNames() {
+        List<Accent> accents = accentService.getAllAccents();
+        return accents.stream()
+                .map(Accent::getName)
+                .collect(Collectors.toList());
+    }
+
     // Delete an Accent
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAccent(@PathVariable Long id) {

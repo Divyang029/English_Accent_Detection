@@ -72,27 +72,23 @@ public class PredictionController {
     }
 
     @PostMapping(value = "/add",consumes = {"multipart/form-data"})
-    public ResponseEntity<Set<CountryDTO>> createPrediction(
+    public ResponseEntity<Map<String, Object>> createPrediction(
             @RequestPart("accentName") String accentName,
             @RequestPart("score") String score,
             @RequestPart("voice") MultipartFile voiceFile) {
-
+        Map<String, Object> response = new HashMap<>();
         try {
-
             int parsedScore = Integer.parseInt(score); // Convert to int
-
             // Pass it to the service
             Prediction savedPrediction = predictionService.createPrediction(accentName,parsedScore,voiceFile);
-
-            return ResponseEntity.ok(savedPrediction.getAccent()
-                    .getCountries()
-                    .stream()
-                    .map(CountryDTO::new)
-                    .collect(Collectors.toSet()));
+            response.put("status","success");
+            response.put("message","Prediction added successfully.");
+            return ResponseEntity.ok(response);
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            response.put("status", "error");
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
-
     }
 
     @PutMapping("/{id}")
@@ -106,7 +102,7 @@ public class PredictionController {
         try {
             predictionService.deletePrediction(id);
 
-            response.put("status", "success");
+            response.put("status", "succxess");
             response.put("predictions", "Prediction deleted successfully");
             return ResponseEntity.ok(response);
         } catch (EntityNotFoundException e) {
