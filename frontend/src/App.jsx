@@ -14,7 +14,7 @@ function App() {
         <Route path="/dashboard/*" element={<Dashboard />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify" element={<VerifyBox/>}/>
-        <Route path="/" element={<Login/>} /> {/* Default route */}
+        <Route path="/" element={<Dashboard/>} /> {/* Default route */}
       </Routes>
     </>
   )

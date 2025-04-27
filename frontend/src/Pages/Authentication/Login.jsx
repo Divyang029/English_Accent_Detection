@@ -114,15 +114,6 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-
-    if(token){
-      navigate('/dashboard/home');
-    }
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
