@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import {
   AppBar,
@@ -38,36 +36,21 @@ const Header = ({ handleLogout }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [profileChange, setProfileChange] = useState(false);
-
-
   const [userProfile, setUserProfile] = useState({});
 
   useEffect(() => {
-    async function fetchdata (){
+    async function fetchdata() {
       const response = await apiRequest("GET", "/api/user/profile", null, true);
       if (response.success) {
         setUserProfile(response.data); 
       }
-      else{
+      else {
         console.error(`Error (${response.status}):`, response.error);     
       } 
     }
         
     fetchdata();
-
-    // Update userProfile when it changes in localStorage
-    
-    // const storedProfile = localStorage.getItem('userProfile');
-    // return storedProfile ? JSON.parse(storedProfile) : {
-    //   firstName: 'John',
-    //   lastName: 'Doe',
-    //   email: 'john.doe@example.com',
-    //   avatar: '/api/placeholder/200/200'
-    // };
-
-    // window.addEventListener('storage', handleStorageChange);
-    // return () => window.removeEventListener('storage', handleStorageChange);
-  }, [profileChange]);
+  }, [profileChange]); // This will re-fetch when profileChange state changes
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
@@ -144,7 +127,14 @@ const Header = ({ handleLogout }) => {
                   },
                 }}
               >
-               
+                <Avatar 
+                  src={userProfile?.avatar} 
+                  sx={{ 
+                    width: 36, 
+                    height: 36, 
+                    border: "2px solid #4CAF50" 
+                  }} 
+                />
               </IconButton>
               
               <IconButton
@@ -195,7 +185,7 @@ const Header = ({ handleLogout }) => {
                   {/* User Profile Section at the top of drawer */}
                   <Box sx={{ py: 2, px: 2, display: "flex", alignItems: "center" }}>
                     <Avatar 
-                      src={userProfile.avatar} 
+                      src={userProfile?.avatar} 
                       sx={{ 
                         width: 48, 
                         height: 48, 
@@ -206,10 +196,10 @@ const Header = ({ handleLogout }) => {
                     />
                     <Box>
                       <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                        {`${userProfile.firstName} ${userProfile.lastName}`}
+                        {`${userProfile?.firstName || ''} ${userProfile?.lastName || ''}`}
                       </Typography>
                       <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.6)" }}>
-                        {userProfile.email}
+                        {userProfile?.email || ''}
                       </Typography>
                     </Box>
                   </Box>
@@ -302,7 +292,7 @@ const Header = ({ handleLogout }) => {
                 }}
               >
                 <Avatar 
-                  src={userProfile.avatar} 
+                  src={userProfile?.avatar} 
                   sx={{ 
                     width: 36, 
                     height: 36, 
@@ -319,7 +309,7 @@ const Header = ({ handleLogout }) => {
         anchorEl={anchorEl} 
         handleClose={handleProfileClose}
         userProfile={userProfile}
-        setUserProfile={setUserProfile}
+        setUserProfile={setUserProfile} // Make sure to pass this prop
         handleLogout={handleLogoutClick}
         setprofileChange={setProfileChange}
       />
