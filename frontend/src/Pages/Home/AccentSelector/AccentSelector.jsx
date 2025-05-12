@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Card, 
-  CardContent, 
-  Divider, 
-  Chip, 
-  Switch, 
-  FormControlLabel, 
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+  Chip,
+  Switch,
+  FormControlLabel,
   Button,
   Dialog,
   DialogTitle,
@@ -36,38 +36,50 @@ const AccentSelector = ({ onAccentConfirmed }) => {
 
   // Fetch accents from API
   useEffect(() => {
-      fetchAccents();
+    fetchAccents();
   }, []);
 
   const fetchAccents = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
-      const response = await apiRequest('GET','/api/accent/names',null,true); // Replace with your actual API endpoint
-      
+      const response = await apiRequest('GET', '/api/accent/names', null, true);
+
       if (!response.success) {
         throw new Error('Failed to fetch accents');
       }
-      
-      setAllAccents(response.data || []);
+
+      // Define the list of allowed accents
+      const allowedAccents = [
+        'arabic', 'dutch', 'english', 'french', 'german',
+        'korean', 'mandarin', 'portuguese', 'russian', 'spanish', 'turkish'
+      ];
+
+      // Filter response data to keep only the allowed accents
+      const filteredAccents = (response.data || []).filter(accentName =>
+        allowedAccents.includes(accentName.toLowerCase())
+      );
+
+      // Then set it to state
+      setAllAccents(filteredAccents);
     } catch (err) {
       console.error('Error fetching accents:', err);
       setError('Failed to load accents.');
-      
+
       // Fallback to dummy data if API call fails
       setAllAccents([
         // Initial accent options
         "Ghanaian",
-        "Indian", 
-        "Philippine", 
-        "Gulf", 
-        "French", 
+        "Indian",
+        "Philippine",
+        "Gulf",
+        "French",
         "American",
         // Additional accent options
-        "South African", 
-        "Irish", 
-        "New Zealand", 
+        "South African",
+        "Irish",
+        "New Zealand",
         "Nigerian",
         "British",
         "Australian",
@@ -83,8 +95,8 @@ const AccentSelector = ({ onAccentConfirmed }) => {
 
   // Get displayed accents based on showAll state
   const initialCount = 6; // Number of accents to show initially
-  const displayedAccents = showAll 
-    ? allAccents 
+  const displayedAccents = showAll
+    ? allAccents
     : allAccents.slice(0, initialCount);
 
   const handleCloseSelector = () => {
@@ -126,7 +138,7 @@ const AccentSelector = ({ onAccentConfirmed }) => {
 
   return (
     <Box sx={{ maxWidth: "800px", width: "100%" }}>
-      <Card 
+      <Card
         elevation={8}
         sx={{
           mb: 4,
@@ -138,16 +150,16 @@ const AccentSelector = ({ onAccentConfirmed }) => {
         }}
       >
         <CardContent sx={{ p: 4 }}>
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
             justifyContent: 'space-between',
             mb: 2
           }}>
-            <Typography 
-              variant="h6" 
-              sx={{ 
-                color: "#4CAF50", 
+            <Typography
+              variant="h6"
+              sx={{
+                color: "#4CAF50",
                 fontWeight: 600,
                 display: "flex",
                 alignItems: "center",
@@ -156,7 +168,7 @@ const AccentSelector = ({ onAccentConfirmed }) => {
             >
               <LanguageIcon /> Select Your Preferred Accent
             </Typography>
-            
+
             <FormControlLabel
               control={
                 <Switch
@@ -178,13 +190,13 @@ const AccentSelector = ({ onAccentConfirmed }) => {
           {showSelector && (
             <>
               <Divider sx={{ mb: 3, bgcolor: "rgba(255,255,255,0.1)" }} />
-              
+
               {loading ? (
-                <Box sx={{ 
-                  display: 'flex', 
-                  justifyContent: 'center', 
+                <Box sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
                   alignItems: 'center',
-                  py: 4 
+                  py: 4
                 }}>
                   <CircularProgress color="success" />
                   <Typography sx={{ ml: 2, color: "#E0E0E0" }}>
@@ -192,10 +204,10 @@ const AccentSelector = ({ onAccentConfirmed }) => {
                   </Typography>
                 </Box>
               ) : error ? (
-                <Box sx={{ 
-                  p: 2, 
-                  mb: 2, 
-                  bgcolor: 'rgba(244, 67, 54, 0.1)', 
+                <Box sx={{
+                  p: 2,
+                  mb: 2,
+                  bgcolor: 'rgba(244, 67, 54, 0.1)',
                   borderRadius: 2,
                   border: '1px solid rgba(244, 67, 54, 0.3)'
                 }}>
@@ -216,25 +228,25 @@ const AccentSelector = ({ onAccentConfirmed }) => {
                             width: '100%',
                             px: 1,
                             py: 2.5,
-                            bgcolor: selectedAccent === accent 
-                              ? "rgba(76, 175, 80, 0.8)" 
+                            bgcolor: selectedAccent === accent
+                              ? "rgba(76, 175, 80, 0.8)"
                               : "rgba(48, 48, 48, 0.8)",
                             color: selectedAccent === accent ? "#FFFFFF" : "#E0E0E0",
                             borderRadius: 2,
                             fontWeight: selectedAccent === accent ? 600 : 400,
-                            border: selectedAccent === accent 
-                              ? "1px solid #4CAF50" 
+                            border: selectedAccent === accent
+                              ? "1px solid #4CAF50"
                               : "1px solid rgba(255,255,255,0.1)",
                             '&:hover': {
-                              bgcolor: selectedAccent === accent 
-                                ? "rgba(76, 175, 80, 0.9)" 
+                              bgcolor: selectedAccent === accent
+                                ? "rgba(76, 175, 80, 0.9)"
                                 : "rgba(76, 175, 80, 0.2)",
                               transform: "translateY(-2px)",
                               boxShadow: "0 4px 8px rgba(0,0,0,0.2)"
                             },
                             transition: "all 0.3s ease",
-                            boxShadow: selectedAccent === accent 
-                              ? "0 4px 8px rgba(0,0,0,0.3)" 
+                            boxShadow: selectedAccent === accent
+                              ? "0 4px 8px rgba(0,0,0,0.3)"
                               : "none",
                             fontSize: "14px"
                           }}
@@ -242,7 +254,7 @@ const AccentSelector = ({ onAccentConfirmed }) => {
                       </Grid>
                     ))}
                   </Grid>
-                  
+
                   {allAccents.length > initialCount && (
                     <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
                       {!showAll ? (
@@ -284,20 +296,20 @@ const AccentSelector = ({ onAccentConfirmed }) => {
                   )}
                 </>
               )}
-              
+
               {(selectedAccent || confirmedSelection) && (
-                <Box sx={{ 
+                <Box sx={{
                   mt: 3,
                   display: 'flex',
                   flexDirection: 'column',
                   gap: 2
                 }}>
-                  <Box sx={{ 
-                    p: 2, 
-                    textAlign: "center", 
+                  <Box sx={{
+                    p: 2,
+                    textAlign: "center",
                     borderRadius: 2,
-                    bgcolor: confirmedSelection 
-                      ? "rgba(76, 175, 80, 0.2)" 
+                    bgcolor: confirmedSelection
+                      ? "rgba(76, 175, 80, 0.2)"
                       : "rgba(76, 175, 80, 0.1)",
                     border: confirmedSelection
                       ? "1px solid rgba(76, 175, 80, 0.5)"
@@ -305,8 +317,8 @@ const AccentSelector = ({ onAccentConfirmed }) => {
                     animation: "fadeIn 0.5s ease-in-out",
                   }}>
                     <Typography variant="body1" sx={{ color: "#E0E0E0" }}>
-                      {confirmedSelection 
-                        ? "Confirmed Accent: " 
+                      {confirmedSelection
+                        ? "Confirmed Accent: "
                         : "Selected Accent: "}
                       <span style={{ color: "#4CAF50", fontWeight: 600 }}>
                         {confirmedSelection || selectedAccent}
@@ -378,20 +390,20 @@ const AccentSelector = ({ onAccentConfirmed }) => {
         <DialogTitle>Unselect Accent and Close?</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ color: "#e0e0e0" }}>
-            {confirmedSelection 
+            {confirmedSelection
               ? `You have confirmed the "${confirmedSelection}" accent. Do you want to unselect it and close the accent selection?`
               : `You have selected the "${selectedAccent}" accent. Do you want to unselect it and close the accent selection?`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button 
+          <Button
             onClick={handleCancelClose}
             sx={{ color: "#9E9E9E" }}
           >
             Cancel
           </Button>
-          <Button 
-            onClick={handleContinueClose} 
+          <Button
+            onClick={handleContinueClose}
             color="error"
             variant="contained"
           >

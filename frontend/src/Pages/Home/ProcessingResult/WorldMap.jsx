@@ -332,14 +332,6 @@ const WorldMap = ({ accentName }) => {
   const [hoveredCountry, setHoveredCountry] = useState(null);
 
   useEffect(() => {
-    // Using dummy data instead of API call
-    // if (accentName && accentCountryData[accentName]) {
-    //   setHighlightedCountries(accentCountryData[accentName].countries);
-    // } else {
-    //   setHighlightedCountries([]);
-    // }
-
-    // Commented out API request
     async function getdata() {
       const response = await apiRequest("GET", `/api/accent/${accentName}/countries`, null, true);
       if (!response.success) {
@@ -348,7 +340,6 @@ const WorldMap = ({ accentName }) => {
       }      
       
       const countrylist = response.data;
-      console.log(countrylist);
       setHighlightedCountries(countrylist);
     }
 
@@ -356,33 +347,6 @@ const WorldMap = ({ accentName }) => {
   }, [accentName]);
 
   useEffect(() => {
-    // // Using dummy data instead of API call
-    // if (selectedCountry) {
-    //   setLoading(true);
-    //   setLoadingFlag(true);
-      
-    //   // Find which accent this country belongs to
-    //   let foundAccent = null;
-    //   for (const [accent, data] of Object.entries(accentCountryData)) {
-    //     if (data.countries.includes(selectedCountry)) {
-    //       foundAccent = accent;
-    //       break;
-    //     }
-    //   }
-      
-    //   if (foundAccent) {
-    //     setCountryData(accentCountryData[foundAccent].data);
-    //     setCountryFlag(accentCountryData[foundAccent].data.flagPath);
-    //   } else {
-    //     setCountryData(null);
-    //     setCountryFlag("");
-    //   }
-      
-    //   setLoading(false);
-    //   setLoadingFlag(false);
-    // }
-
-    // Commented out API request
     async function getdata(){
       if (selectedCountry) {
         setLoading(true);
@@ -411,7 +375,6 @@ const WorldMap = ({ accentName }) => {
     getdata();
   }, [selectedCountry]);
 
-  // Commented out flag loading function since we're using direct URLs
   const loadFlag = (flagPath) => {
     const img = new Image();
     img.src = flagPath;

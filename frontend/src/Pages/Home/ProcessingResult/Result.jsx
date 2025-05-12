@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 
 import "../../../Styles/Typewriter.css";
 
-const Result = ({accentResult,setAccentResult}) => {
+const Result = ({accentResult,setAccentResult,setAudioBlob,setUploadedFile}) => {
     const [isTyped, setIsTyped] = useState(false);
 
     useEffect(() => {
@@ -87,7 +87,7 @@ const Result = ({accentResult,setAccentResult}) => {
                   px: 4,
                   py: 1.5,
                 }}
-                onClick={() => setAccentResult(null)} 
+                onClick={() => {setAccentResult(null); setUploadedFile(null); setAudioBlob(null)}} 
               >
                 Try Another Recording
               </Button>
