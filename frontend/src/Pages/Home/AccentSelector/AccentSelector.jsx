@@ -49,45 +49,15 @@ const AccentSelector = ({ onAccentConfirmed }) => {
       if (!response.success) {
         throw new Error('Failed to fetch accents');
       }
-
-      // Define the list of allowed accents
-      const allowedAccents = [
-        'arabic', 'dutch', 'english', 'french', 'german',
-        'korean', 'mandarin', 'portuguese', 'russian', 'spanish', 'turkish'
-      ];
-
-      // Filter response data to keep only the allowed accents
-      const filteredAccents = (response.data || []).filter(accentName =>
-        allowedAccents.includes(accentName.toLowerCase())
-      );
-
+      
       // Then set it to state
-      setAllAccents(filteredAccents);
+      setAllAccents(response.data);
     } catch (err) {
       console.error('Error fetching accents:', err);
       setError('Failed to load accents.');
 
       // Fallback to dummy data if API call fails
-      setAllAccents([
-        // Initial accent options
-        "Ghanaian",
-        "Indian",
-        "Philippine",
-        "Gulf",
-        "French",
-        "American",
-        // Additional accent options
-        "South African",
-        "Irish",
-        "New Zealand",
-        "Nigerian",
-        "British",
-        "Australian",
-        "Canadian",
-        "Scottish",
-        "Welsh",
-        "Jamaican"
-      ]);
+      setAllAccents([]);
     } finally {
       setLoading(false);
     }

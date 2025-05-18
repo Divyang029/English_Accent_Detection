@@ -178,6 +178,8 @@ const Home = () => {
     } catch (error) {
       console.error("Model API Error:", error);
       setProcessing(false);
+      setAudioBlob(null);
+      setUploadedFile(null);
       alert("Error analyzing accent: " + error.message);
       return;
     } finally {
@@ -193,52 +195,55 @@ const Home = () => {
     setUserSelectedAccent(null);
   };
 
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true});
+  // const startRecording = async () => {
+  //   try {
+  //     const stream = await navigator.mediaDevices.getUserMedia({ audio: true});
 
-      const recorder = new MediaRecorder(stream);
+  //     const recorder = new MediaRecorder(stream);
 
-      setMediaRecorder(recorder);
+  //     setMediaRecorder(recorder);
 
-      const chunks = [];
-      recorder.ondataavailable = (e) => {
-        chunks.push(e.data);
-      };
+  //     const chunks = [];
+  //     recorder.ondataavailable = (e) => {
+  //       chunks.push(e.data);
+  //     };
 
-      recorder.onstop = () => {
-        const blob = new Blob(chunks, { type: "audio/mp3" });
-        setAudioBlob(blob);
-        const url = URL.createObjectURL(blob);
-        setAudioUrl(url);
-        stream.getTracks().forEach((track) => track.stop());
-        setUploadedFile(null);
-        if (chunks.length > 0) {
-          analyzeAccent(blob);
-        }
-      };
+  //     recorder.onstop = () => {
+  //       const blob = new Blob(chunks, { type: "audio/mp3" });
+  //       setAudioBlob(blob);
+  //       const url = URL.createObjectURL(blob);
+  //       setAudioUrl(url);
+  //       stream.getTracks().forEach((track) => track.stop());
+  //       setUploadedFile(null);
+  //       if (chunks.length > 0) {
+  //         analyzeAccent(blob);
+  //       }
+  //     };
 
-      recorder.start();
-      setRecording(true);
-      setAccentResult(null);
+  //     recorder.start();
+  //     setRecording(true);
+  //     setAccentResult(null);
 
-      // Automatically stop after 120 seconds
-      setTimeout(() => {
-        recorder.stop();
-        setRecording(false);
-      }, 120000);
+  //     // Automatically stop after 120 seconds
+  //     setTimeout(() => {
+  //       recorder.stop();
+  //       setRecording(false);
+  //     }, 120000);
 
-    } catch (error) {
-      console.error("Error accessing microphone:", error);
-      alert("Microphone access denied. Please allow microphone access to record.");
-    }
-  };
+  //   } catch (error) {
+  //     console.error("Error accessing microphone:", error);
+  //     alert("Microphone access denied. Please allow microphone access to record.");
+  //   }
+  // };
+
+  const startRecording = () => { alert("Microphone service is currently not available."); }
 
   const stopRecording = () => {
-    if (mediaRecorder) {
-      mediaRecorder.stop();
-      setRecording(false);
-    }
+    alert("Microphone service is currently not available.");
+    // if (mediaRecorder) {
+    //   mediaRecorder.stop();
+    //   setRecording(false);
+    // }
   };
 
   const handleFileUpload = (event) => {
