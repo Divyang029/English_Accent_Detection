@@ -1,7 +1,5 @@
 package com.example.AccentDetection.controller;
 
-import com.example.AccentDetection.entity.ProjectReview;
-import com.example.AccentDetection.service.ProjectReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
