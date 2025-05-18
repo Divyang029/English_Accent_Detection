@@ -26,7 +26,7 @@ public class AccentServiceImpl implements AccentService {
 
     @Override
     public List<Accent> getAllAccents() {
-        return accentRepository.findAll();
+        return accentRepository.findByIsPredictableTrue();
     }
 
     @Override

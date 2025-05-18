@@ -21,6 +21,8 @@ public class Accent {
     @ManyToMany(mappedBy = "accents")
     private Set<Country> countries;
 
+    @Column(name = "is_predictable", nullable = false)
+    private boolean isPredictable = false;
     public Accent() {}
 
     public Accent(Long id, String name, String commonWords, String influence) {
