@@ -1,0 +1,19 @@
+# Ignore build output
+target/
+
+# Ignore IDE settings
+.idea/
+*.iml
+
+
+# Ignore VCS and system files
+.git/
+.gitattributes
+.gitignore
+.DS_Store
+Thumbs.db
+
+# Ignore OS-specific or editor files
+*.swp
+*.bak
+
