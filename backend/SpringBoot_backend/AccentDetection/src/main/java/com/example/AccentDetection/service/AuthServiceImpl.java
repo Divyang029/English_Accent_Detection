@@ -165,7 +165,7 @@ public class AuthServiceImpl implements AuthService{
 
             content = content.replace("[[name]]", user.getFirstName());
             content = content.replace("[[OTP_CODE]]", otp);
-            content = content.replace("[[URL]]",env.getProperty("FRONTEND_URL"));
+            content = content.replace("[[URL]]",env.getProperty("DEPLOYED_URL"));
 
             helper.setText(content, true);
 
