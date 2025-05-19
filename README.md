@@ -8,11 +8,22 @@ The primary focus of this project is to train and deploy models capable of disti
 
 ---
 
+## 🔗 Live Demo
+
+👉 [Try the Accent Detection App](https://english-accent-detection.vercel.app/)  
+*Frontend deployed on Vercel — interacts with a Spring Boot backend deployed on Railway.*
+
+---
+
 ## Features
 
 - **Accent Detection**: Predict the accent of a speaker from their audio input.
 - **Machine Learning Models**: Utilizes advanced ML techniques (e.g., Wav2Vec2) for feature extraction and classification.
 - **Reproducible Code**: End-to-end implementation from data preprocessing to model evaluation.
+- **Frontend**: built with ReactJS and hosted on Vercel
+- **Backend**: built with Spring Boot and deployed via Docker on Railway
+- **Dataabase**: MySQL on Aiven for database management
+- **Microsoft Azure Blob Storage**: for secure audio file storage
 
 ---
 
@@ -71,11 +82,14 @@ Given an input speech waveform, it outputs confidence scores for each accent alo
 
 ## Repository Structure
 
-- `notebooks/` — Jupyter notebooks for data analysis and model training  
-- `scripts/` — Python scripts for preprocessing and model training  
-- `models/` — Pre-trained models and checkpoints  
-- `results/` — Confusion matrices, accuracy reports, and plots  
-- `README.md` — Project documentation  
+├── frontend/          # ReactJS frontend 
+├── backend/           # Spring Boot backend
+├── model/             # Machine learning code, models, and notebooks
+│   ├── notebooks/     # Jupyter notebooks for data analysis and model training  
+│   ├── scripts/       # Python scripts for preprocessing and model training 
+│   ├── models/        # Pre-trained models and checkpoints
+│   └── results/       # Confusion matrices, accuracy reports, and plots  
+├── README.md          # Project documentation
 
 ---
 
@@ -94,6 +108,76 @@ The model training code is available on Kaggle:
 You can download and use the pre-trained model from Hugging Face:
 
 [Wav2Vec2 Accent Classification on Hugging Face](https://huggingface.co/vrund1346/wav2vec2_accent_classification_v2)
+
+---
+
+## Web UI Screenshots
+
+### 🧭 Dashboard
+![Dashboard](screenshots/dashboard.pn)
+
+### 🎙️ Accent Analysis
+![Accent Analysis](screenshots/accent_analysis.png)
+
+### 🌍 Accent-Country Mapping
+![Accent-Country Mapping](screenshots/accent_country_mapping.png)
+
+### 🗺️ Country Details
+![Country Details](screenshots/country_details.png)
+
+### 🕓 History Page
+![History](screenshots/history.png)
+
+### ℹ️ About Page
+![About](screenshots/about.png)
+
+### 🔐 Sign Up & Login
+![Auth](screenshots/auth.png)
+
+### 🔄 Forget Password
+![Forget Password](screenshots/forget_password.png)
+
+---
+
+## 🐳 Docker Setup (Backend)
+
+## 🔐 Environment Variables
+
+Create a `.env` file in the `backend/` directory with the following keys:
+
+```env
+PORT=app_port
+
+# MySQL (Aiven) Database Configuration
+DB_URL=your_db_url
+DB_USER=your_user+name
+DB_PASSWORD=your_password
+
+# JWT Configuration
+JWT_SECRET=jwt_secret_key
+JWT_EXP_MS=exp_time
+
+# Mailer Configuration
+YOUR_EMAIL=your_email
+YOUR_APP_PASSWORD=app_password
+
+# Frontend binding
+FRONTEND_URL=localhost_frontend_url
+DEPLOYED_URL=deployed_frontend_url
+
+# Azure Storage Configuration
+AZURE_BLOB_CONN_STRING=azire_conn_string
+VOICE_CONTAINER_NAME=container_name
+AVATAR_CONTAINER_NAME=container_name
+```
+
+### 📦 Build the Docker Image
+
+```bash
+cd backend
+docker build -t accent-backend .
+docker run -p 8080:8080 --env-file .env accent-backend
+```
 
 ---
 
