@@ -127,11 +127,11 @@ You can download and use the pre-trained model from Hugging Face:
 ### 🎙️ Accent Analysis
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/2a2e1679-30e1-4859-a853-7ac0b758e047" width="600" />
+  <img src="https://github.com/user-attachments/assets/2a2e1679-30e1-4859-a853-7ac0b758e047" width="700" />
   <br><br>
-  <img src="https://github.com/user-attachments/assets/7a79a3fb-27d7-4519-b083-1387d4c9b96e" width="600" />
+  <img src="https://github.com/user-attachments/assets/7a79a3fb-27d7-4519-b083-1387d4c9b96e" width="700" />
   <br><br>
-  <img src="https://github.com/user-attachments/assets/8ae657c0-0341-4aaa-9357-cb1b3746384c" width="600" />
+  <img src="https://github.com/user-attachments/assets/8ae657c0-0341-4aaa-9357-cb1b3746384c" width="500" />
 </div>
 
 <br><br>
@@ -139,7 +139,7 @@ You can download and use the pre-trained model from Hugging Face:
 ### 🌍 Accent-Country Mapping
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/3ad249d7-f75f-4c37-9be6-dff041358ec0" width="600" />
+  <img src="https://github.com/user-attachments/assets/3ad249d7-f75f-4c37-9be6-dff041358ec0" width="800" />
 </div>
 
 <br><br>
@@ -147,7 +147,7 @@ You can download and use the pre-trained model from Hugging Face:
 ### 🗺️ Country Details
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/8a745de1-072a-4c72-9d05-8e1798768a46" width="600" />
+  <img src="https://github.com/user-attachments/assets/8a745de1-072a-4c72-9d05-8e1798768a46" width="500" />
 </div>
 
 <br><br>
@@ -155,7 +155,7 @@ You can download and use the pre-trained model from Hugging Face:
 ### 🕓 History Page
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/4db26cf6-4759-4aa9-81da-2dc4cee9f740" width="600" />
+  <img src="https://github.com/user-attachments/assets/4db26cf6-4759-4aa9-81da-2dc4cee9f740" width="800" />
 </div>
 
 <br><br>
@@ -163,7 +163,7 @@ You can download and use the pre-trained model from Hugging Face:
 ### ℹ️ About Page
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/2d9e8ea0-3c4a-4533-9273-131d7c57f427" width="600" />
+  <img src="https://github.com/user-attachments/assets/2d9e8ea0-3c4a-4533-9273-131d7c57f427" width="800" />
 </div>
 
 <br><br>
@@ -171,9 +171,9 @@ You can download and use the pre-trained model from Hugging Face:
 ### 🔐 Sign Up & Login
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/57de7e04-ded1-491b-9d4b-71fcc4d950b5" width="600" />
+  <img src="https://github.com/user-attachments/assets/57de7e04-ded1-491b-9d4b-71fcc4d950b5" width="700" />
   <br><br>
-  <img src="https://github.com/user-attachments/assets/e99ed4e3-9be4-4839-9089-ab9eb555a8c4" width="600" />
+  <img src="https://github.com/user-attachments/assets/e99ed4e3-9be4-4839-9089-ab9eb555a8c4" width="700" />
 </div>
 
 <br><br>
@@ -181,7 +181,7 @@ You can download and use the pre-trained model from Hugging Face:
 ### 🔄 Forget Password
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/9a01397f-f9a7-41cb-b735-caa07b224092" width="600" />
+  <img src="https://github.com/user-attachments/assets/9a01397f-f9a7-41cb-b735-caa07b224092" width="700" />
 </div>
 
 ---
