@@ -115,32 +115,74 @@ You can download and use the pre-trained model from Hugging Face:
 ## Web UI Screenshots
 
 ### 🧭 Dashboard
-![Dashboard](https://github.com/user-attachments/assets/7824c2a1-8e7a-4f7f-8afb-c26f6912bfd5)
-![Dashboard](https://github.com/user-attachments/assets/c2696903-161a-43f2-9b37-27921b113300)
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/7824c2a1-8e7a-4f7f-8afb-c26f6912bfd5" width="600" />
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/c2696903-161a-43f2-9b37-27921b113300" width="600" />
+</div>
+
+<br><br>
 
 ### 🎙️ Accent Analysis
-![Accent Analysis](https://github.com/user-attachments/assets/2a2e1679-30e1-4859-a853-7ac0b758e047)
-![Accent Analysis](https://github.com/user-attachments/assets/7a79a3fb-27d7-4519-b083-1387d4c9b96e)
-![Accent Analysis](https://github.com/user-attachments/assets/8ae657c0-0341-4aaa-9357-cb1b3746384c)
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/2a2e1679-30e1-4859-a853-7ac0b758e047" width="600" />
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/7a79a3fb-27d7-4519-b083-1387d4c9b96e" width="600" />
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/8ae657c0-0341-4aaa-9357-cb1b3746384c" width="600" />
+</div>
+
+<br><br>
 
 ### 🌍 Accent-Country Mapping
-![Accent-Country Mapping](https://github.com/user-attachments/assets/3ad249d7-f75f-4c37-9be6-dff041358ec0)
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/3ad249d7-f75f-4c37-9be6-dff041358ec0" width="600" />
+</div>
+
+<br><br>
 
 ### 🗺️ Country Details
-![Country Details](https://github.com/user-attachments/assets/8a745de1-072a-4c72-9d05-8e1798768a46)
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/8a745de1-072a-4c72-9d05-8e1798768a46" width="600" />
+</div>
+
+<br><br>
 
 ### 🕓 History Page
-![History](https://github.com/user-attachments/assets/4db26cf6-4759-4aa9-81da-2dc4cee9f740)
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/4db26cf6-4759-4aa9-81da-2dc4cee9f740" width="600" />
+</div>
+
+<br><br>
 
 ### ℹ️ About Page
-![About](https://github.com/user-attachments/assets/2d9e8ea0-3c4a-4533-9273-131d7c57f427)
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/2d9e8ea0-3c4a-4533-9273-131d7c57f427" width="600" />
+</div>
+
+<br><br>
 
 ### 🔐 Sign Up & Login
-![Auth](https://github.com/user-attachments/assets/57de7e04-ded1-491b-9d4b-71fcc4d950b5)
-![Auth](https://github.com/user-attachments/assets/e99ed4e3-9be4-4839-9089-ab9eb555a8c4)
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/57de7e04-ded1-491b-9d4b-71fcc4d950b5" width="600" />
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/e99ed4e3-9be4-4839-9089-ab9eb555a8c4" width="600" />
+</div>
+
+<br><br>
 
 ### 🔄 Forget Password
-![Forget Password](https://github.com/user-attachments/assets/9a01397f-f9a7-41cb-b735-caa07b224092)
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/9a01397f-f9a7-41cb-b735-caa07b224092" width="600" />
+</div>
 
 ---
 
