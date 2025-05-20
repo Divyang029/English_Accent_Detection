@@ -117,9 +117,9 @@ You can download and use the pre-trained model from Hugging Face:
 ### 🧭 Dashboard
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/7824c2a1-8e7a-4f7f-8afb-c26f6912bfd5" width="600" />
+  <img src="https://github.com/user-attachments/assets/7824c2a1-8e7a-4f7f-8afb-c26f6912bfd5" width="800" />
   <br><br>
-  <img src="https://github.com/user-attachments/assets/c2696903-161a-43f2-9b37-27921b113300" width="600" />
+  <img src="https://github.com/user-attachments/assets/c2696903-161a-43f2-9b37-27921b113300" width="800" />
 </div>
 
 <br><br>
